@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{8359A2AC-6
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telemetry.UnitTest", "Telemetry.UnitTest\Telemetry.UnitTest.csproj", "{A7531C3E-0E6A-4C86-B2A6-D0FF13E78F34}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +22,10 @@ Global
 		{1C481933-9264-44AC-880A-3E74DEC06217}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C481933-9264-44AC-880A-3E74DEC06217}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C481933-9264-44AC-880A-3E74DEC06217}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7531C3E-0E6A-4C86-B2A6-D0FF13E78F34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7531C3E-0E6A-4C86-B2A6-D0FF13E78F34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7531C3E-0E6A-4C86-B2A6-D0FF13E78F34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7531C3E-0E6A-4C86-B2A6-D0FF13E78F34}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
