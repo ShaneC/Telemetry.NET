@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9DEF1584-854D-4EB8-931F-D54B09F620E8}</ProjectGuid>
+    <ProjectGuid>{A3E70ADA-08B3-4977-9254-34A33E682326}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Telemetry.UnitTest</RootNamespace>
-    <AssemblyName>Telemetry.UnitTest</AssemblyName>
+    <RootNamespace>Telemetry.Test.UnitTests</RootNamespace>
+    <AssemblyName>Telemetry.Test.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
