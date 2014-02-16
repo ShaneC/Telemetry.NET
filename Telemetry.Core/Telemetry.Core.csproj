@@ -36,7 +36,10 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LogTransaction.cs" />
+    <Compile Include="Enums.cs" />
+    <Compile Include="ErrorReport.cs" />
+    <Compile Include="IReport.cs" />
+    <Compile Include="InformationReport.cs" />
     <Compile Include="StorageProviders\IStorageProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

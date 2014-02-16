@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Telemetry.Azure {
 
-    public class Class1 {
+	public interface ITableConverter {
+	
 
 
-
-    }
+	}
 
 }
