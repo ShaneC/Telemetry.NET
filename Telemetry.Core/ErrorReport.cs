@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Json;
 using System.Text;
 
 namespace Telemetry.Core {
@@ -57,7 +59,13 @@ namespace Telemetry.Core {
 		}
 
 		public string SerializeToText() {
-			throw new NotImplementedException();
+			DataContractJsonSerializer serializer = new DataContractJsonSerializer( _parameters.GetType() );
+			using( var stream = new MemoryStream() ){
+				serializer.WriteObject( stream, _parameters );
+				using( var reader = new StreamReader( stream ) ) {
+					return reader.ReadToEnd();
+				}
+			}
 		}
 
 		public IReport DeserializeFromText( string input ) {
