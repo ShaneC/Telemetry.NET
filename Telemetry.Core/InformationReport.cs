@@ -9,36 +9,40 @@ namespace Telemetry.Core {
 
 		public readonly string ReportSpace = "information";
 
-		public DateTime _LogTime = DateTime.UtcNow;
+		private DateTime _activityTime = DateTime.UtcNow;
+		public DateTime ActivityTime {
+			get { return _activityTime; }
+			set {
+				_activityTime = value;
+				LogDataPoint( "ActivityTime", value );
+			}
+		}
 
-		private Dictionary<string, object> _paramaters = new Dictionary<string, object>();
+		private Dictionary<string, object> _parameters = new Dictionary<string, object>();
 
-		public void LogItem( string key, object value ) {
-			_paramaters.Add( key, value );
+		public void LogDataPoint( string dataPoint, object value ) {
+			if( !_parameters.ContainsKey( dataPoint ) )
+				_parameters.Add( dataPoint, value );
+			else
+				_parameters[dataPoint] = value;
 		}
 
 		public void SetLogTime() {
-			_LogTime = DateTime.UtcNow;
+			_activityTime = DateTime.UtcNow;
 		}
 
 		public void SetLogTime( DateTime time ) {
-			_LogTime = time;
-		}
-
-		public string SerializeToText() {
-			throw new NotImplementedException();
-		}
-
-		public IReport DeserializeFromText( string input ) {
-			throw new NotImplementedException();
+			_activityTime = time;
 		}
 
 		public Dictionary<string, object> GetDataPoints() {
-			throw new NotImplementedException();
+			return _parameters;
 		}
 
 		public object GetDataPointValue( string dataPoint ) {
-			throw new NotImplementedException();
+			if( !_parameters.ContainsKey( dataPoint ) )
+				return null;
+			return _parameters[dataPoint];
 		}
 
 	}

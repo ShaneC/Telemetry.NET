@@ -12,11 +12,7 @@ namespace Telemetry.Core {
 		/// </summary>
 		/// <param name="dataPoint">Key for the data point for logging.</param>
 		/// <param name="value">Value to be logged for the given data point.</param>
-		void LogItem( string dataPoint, object value );
-
-		string SerializeToText();
-
-		IReport DeserializeFromText( string input );
+		void LogDataPoint( string dataPoint, object value );
 
 		Dictionary<string, object> GetDataPoints();
 

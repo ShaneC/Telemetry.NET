@@ -9,7 +9,7 @@ using Telemetry;
 
 namespace Telemetry.StorageProviders {
 
-	public class PhoneFileSystem : IStorageProvider {
+	public class PhoneFileSystem : ITempStorageProvider {
 
 		public byte[] GetData( string targetFile ) {
 

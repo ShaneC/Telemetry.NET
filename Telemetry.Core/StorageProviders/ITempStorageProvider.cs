@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 
 namespace Telemetry.StorageProviders {
+	
+	public interface ITempStorageProvider {
 
-	public interface IStorageProvider {
 
-		byte[] GetData( string targetFile );
-		void SaveData( byte[] data );
 
 	}
 

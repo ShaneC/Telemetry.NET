@@ -16,7 +16,7 @@ namespace Telemetry.Core {
 			get { return _activityTime; }
 			set { 
 				_activityTime = value;
-				LogItem( "ActivityTime", value );
+				LogDataPoint( "ActivityTime", value );
 			}
 		}
 
@@ -25,7 +25,7 @@ namespace Telemetry.Core {
 			get { return _exception; }
 			set {
 				_exception = value;
-				LogItem( "Exception", value );
+				LogDataPoint( "Exception", value );
 			}
 		}
 
@@ -34,7 +34,7 @@ namespace Telemetry.Core {
 			get { return _errorCode; }
 			set {
 				_errorCode = value;
-				LogItem( "ErrorCode", value );
+				LogDataPoint( "ErrorCode", value );
 			}
 		}
 
@@ -51,25 +51,19 @@ namespace Telemetry.Core {
 			ErrorCode = errorCode;
 		}
 
-		public void LogItem( string dataPoint, object value ) {
+		public void LogDataPoint( string dataPoint, object value ) {
 			if( !_parameters.ContainsKey( dataPoint ) )
 				_parameters.Add( dataPoint, value );
 			else
 				_parameters[dataPoint] = value;
 		}
 
-		public string SerializeToText() {
-			DataContractJsonSerializer serializer = new DataContractJsonSerializer( _parameters.GetType() );
-			using( var stream = new MemoryStream() ){
-				serializer.WriteObject( stream, _parameters );
-				using( var reader = new StreamReader( stream ) ) {
-					return reader.ReadToEnd();
-				}
-			}
+		public void SetLogTime() {
+			_activityTime = DateTime.UtcNow;
 		}
 
-		public IReport DeserializeFromText( string input ) {
-			throw new NotImplementedException();
+		public void SetLogTime( DateTime time ) {
+			_activityTime = time;
 		}
 
 		public Dictionary<string, object> GetDataPoints() {
