@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Telemetry.StorageProviders {
 	
-	public interface ITempStorageProvider {
+	public abstract class ReportStorageProvider {
 
 
 

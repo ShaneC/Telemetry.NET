@@ -26,6 +26,15 @@ namespace Telemetry.Core {
 			set {
 				_exception = value;
 				LogDataPoint( "Exception", value );
+
+				// Log all InnerExceptions
+				int i = 0;
+				var inner = value.InnerException;
+				while( inner != null ) {
+					LogDataPoint( "InnerException_" + i, inner );
+					inner = inner.InnerException;
+					i++;
+				}
 			}
 		}
 

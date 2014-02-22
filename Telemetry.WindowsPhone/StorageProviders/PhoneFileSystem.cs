@@ -6,10 +6,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Telemetry;
+using Telemetry.Core.StorageProviders;
+using Telemetry.Serializers;
 
 namespace Telemetry.StorageProviders {
 
-	public class PhoneFileSystem : ITempStorageProvider {
+	public class PhoneFileSystem : TempStorageProvider {
+
+		public PhoneFileSystem( ISerializer serializer )
+			: base( serializer ) {
+
+		}
 
 		public byte[] GetData( string targetFile ) {
 
@@ -29,6 +36,14 @@ namespace Telemetry.StorageProviders {
 		}
 
 		public void SaveData( byte[] data ) {
+			throw new NotImplementedException();
+		}
+
+		public override void WriteToTempStorage( Core.IReport report ) {
+			throw new NotImplementedException();
+		}
+
+		public override List<Dictionary<string, object>> ReadAllFromTempStorage() {
 			throw new NotImplementedException();
 		}
 	}
