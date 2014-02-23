@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Json;
 using System.Text;
+using System.Runtime.InteropServices;
 
 namespace Telemetry.Core {
 	
@@ -28,6 +29,7 @@ namespace Telemetry.Core {
 
 		public ErrorReport( Exception e ) {
 			Exception = e;
+			ErrorCode = e.HResult;
 		}
 
 		public ErrorReport( int errorCode ) {

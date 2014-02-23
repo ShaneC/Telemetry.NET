@@ -42,7 +42,7 @@ namespace Telemetry.StorageProviders {
 			throw new NotImplementedException();
 		}
 
-		public override List<Dictionary<string, object>> ReadAllFromTempStorage() {
+		public override List<TelemetryReport> ReadAllFromTempStorage() {
 			throw new NotImplementedException();
 		}
 	}
