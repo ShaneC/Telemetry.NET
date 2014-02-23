@@ -42,7 +42,7 @@ namespace Telemetry.Test.UnitTests {
 				throw new GenericException( ErrorCode.GENERIC_CRITICAL_ERROR, "Something happened" );
 			} catch( GenericException e ) {
 				ErrorReport report = new ErrorReport( e, e.HResult );
-				telemetryClient.UploadReport( report, new AzureTableStorageProvider( null ) );
+				telemetryClient.UploadAsync( report, new AzureTableStorageProvider( null ) );
 			}
 
 		}

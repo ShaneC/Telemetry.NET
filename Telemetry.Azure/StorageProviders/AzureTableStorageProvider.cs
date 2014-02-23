@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Telemetry.Core;
 
 namespace Telemetry.StorageProviders {
 
@@ -20,7 +21,7 @@ namespace Telemetry.StorageProviders {
 			// TODO: Validate Azure Settings & Schema Definition
 		}
 
-		public override void UploadToStorage( Dictionary<string, object> report ) {
+		public override void UploadToStorage( TelemetryReport report ) {
 			throw new NotImplementedException();
 		}
 

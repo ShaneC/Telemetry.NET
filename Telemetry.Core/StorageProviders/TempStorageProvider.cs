@@ -20,7 +20,7 @@ namespace Telemetry.StorageProviders {
 
 		public abstract List<TelemetryReport> ReadAllFromTempStorage();
 
-		public void UploadAllFromTempStorage( ReportStorageProvider reportStorageProvider );
+		public abstract void UploadAllFromTempStorage( ReportStorageProvider reportStorageProvider );
 
 	}
 

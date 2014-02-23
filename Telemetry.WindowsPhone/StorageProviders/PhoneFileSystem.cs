@@ -45,6 +45,11 @@ namespace Telemetry.StorageProviders {
 		public override List<TelemetryReport> ReadAllFromTempStorage() {
 			throw new NotImplementedException();
 		}
+
+		public override void UploadAllFromTempStorage( ReportStorageProvider reportStorageProvider ) {
+			throw new NotImplementedException();
+		}
+
 	}
 
 }

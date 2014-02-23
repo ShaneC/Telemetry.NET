@@ -14,14 +14,14 @@ namespace Telemetry.StorageProviders {
 		/// <param name="reports">List containing reports for upload</param>
 		public void UploadToStorage( List<TelemetryReport> reports ) {
 			foreach( var report in reports )
-				UploadToStorage( report.GetDataPoints() );
+				UploadToStorage( report );
 		}
 
 		/// <summary>
 		/// Uploads a report to the report storage provider.
 		/// </summary>
 		/// <param name="report"></param>
-		public abstract void UploadToStorage( Dictionary<string, object> report );
+		public abstract void UploadToStorage( TelemetryReport report );
 
 	}
 
