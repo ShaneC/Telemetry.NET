@@ -1,6 +1,7 @@
 ﻿using System;
 using Telemetry.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Telemetry.StorageProviders;
 
 namespace Telemetry.Test.UnitTests {
 
@@ -20,6 +21,28 @@ namespace Telemetry.Test.UnitTests {
 				throw new GenericException( ErrorCode.GENERIC_CRITICAL_ERROR, "Something happened" );
 			} catch( GenericException e ) {
 				ErrorReport report = new ErrorReport( e, e.HResult );
+				telemetryClient.AddActiveReport( report );
+			}
+
+			try {
+				throw new GenericException( ErrorCode.GENERIC_CRITICAL_ERROR, "Something else happened" );
+			} catch( GenericException e ) {
+				ErrorReport report = new ErrorReport( e, e.HResult );
+				telemetryClient.AddActiveReport( report );
+			}
+
+		}
+
+		[TestMethod]
+		public void TestMethod2() {
+
+			TelemetryClient telemetryClient = new TelemetryClient();
+
+			try {
+				throw new GenericException( ErrorCode.GENERIC_CRITICAL_ERROR, "Something happened" );
+			} catch( GenericException e ) {
+				ErrorReport report = new ErrorReport( e, e.HResult );
+				telemetryClient.UploadReport( report, new AzureTableStorageProvider( null ) );
 			}
 
 		}

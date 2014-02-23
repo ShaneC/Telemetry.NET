@@ -55,6 +55,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Telemetry.Azure\Telemetry.Azure.csproj">
+      <Project>{ed6e1c58-343f-4897-af44-9ff42a2c0e3b}</Project>
+      <Name>Telemetry.Azure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Telemetry.Core\Telemetry.Core.csproj">
       <Project>{922dd146-652b-4b69-9f41-f846d5af0a9b}</Project>
       <Name>Telemetry.Core</Name>

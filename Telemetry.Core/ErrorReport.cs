@@ -27,9 +27,12 @@ namespace Telemetry.Core {
 			}
 		}
 
+		public Dictionary<object, object> DebugData = new Dictionary<object, object>();
+
 		public ErrorReport( Exception e ) {
 			Exception = e;
 			ErrorCode = e.HResult;
+			DebugData = new Dictionary<object, object>();
 		}
 
 		public ErrorReport( int errorCode ) {
