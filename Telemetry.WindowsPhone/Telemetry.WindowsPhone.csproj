@@ -85,6 +85,7 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StorageProviders\AzureTableStorageProvider.cs" />
     <Compile Include="StorageProviders\PhoneFileSystem.cs" />
   </ItemGroup>
   <ItemGroup>

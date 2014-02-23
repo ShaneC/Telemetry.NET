@@ -7,7 +7,7 @@ namespace Telemetry.StorageProviders {
 	
 	public abstract class ReportStorageProvider {
 
-
+		
 
 	}
 

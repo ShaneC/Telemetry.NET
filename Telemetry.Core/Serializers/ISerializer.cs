@@ -8,7 +8,7 @@ namespace Telemetry.Serializers {
 
 	public interface ISerializer {
 
-		string SerializeToText( IReport report );
+		string SerializeToText( TelemetryReport report );
 
 		string SerializeToText( Dictionary<string, object> parameters );
 

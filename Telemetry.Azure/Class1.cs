@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Telemetry.Core {
-
-	public class InformationReport : TelemetryReport {
-
-		
-
-	}
-
+namespace Telemetry.Azure
+{
+    public class Class1
+    {
+    }
 }

@@ -5,15 +5,13 @@ VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telemetry.Core", "Telemetry.Core\Telemetry.Core.csproj", "{922DD146-652B-4B69-9F41-F846D5AF0A9B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telemetry.Azure.Mobile", "Telemetry.Azure.Mobile\Telemetry.Azure.Mobile.csproj", "{1FAA290D-B615-4403-AF0A-23C6F8B61095}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telemetry.Azure", "Telemetry.Azure\Telemetry.Azure.csproj", "{82AAE49F-8463-4A1F-B30B-094881E2D141}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telemetry.Test.UnitTests", "Telemetry.Test.UnitTests\Telemetry.Test.UnitTests.csproj", "{A3E70ADA-08B3-4977-9254-34A33E682326}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telemetry.WindowsPhone", "Telemetry.WindowsPhone\Telemetry.WindowsPhone.csproj", "{A624C7C9-417F-46FB-9AC1-1E24A0B6E75A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telemetry.Client", "Telemetry.Client\Telemetry.Client.csproj", "{D96B5211-E865-4755-80AF-4FB05C67E1EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telemetry.Azure", "Telemetry.Azure\Telemetry.Azure.csproj", "{ED6E1C58-343F-4897-AF44-9FF42A2C0E3B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,22 +31,6 @@ Global
 		{922DD146-652B-4B69-9F41-F846D5AF0A9B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{922DD146-652B-4B69-9F41-F846D5AF0A9B}.Release|ARM.ActiveCfg = Release|Any CPU
 		{922DD146-652B-4B69-9F41-F846D5AF0A9B}.Release|x86.ActiveCfg = Release|Any CPU
-		{1FAA290D-B615-4403-AF0A-23C6F8B61095}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1FAA290D-B615-4403-AF0A-23C6F8B61095}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1FAA290D-B615-4403-AF0A-23C6F8B61095}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{1FAA290D-B615-4403-AF0A-23C6F8B61095}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{1FAA290D-B615-4403-AF0A-23C6F8B61095}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1FAA290D-B615-4403-AF0A-23C6F8B61095}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1FAA290D-B615-4403-AF0A-23C6F8B61095}.Release|ARM.ActiveCfg = Release|Any CPU
-		{1FAA290D-B615-4403-AF0A-23C6F8B61095}.Release|x86.ActiveCfg = Release|Any CPU
-		{82AAE49F-8463-4A1F-B30B-094881E2D141}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{82AAE49F-8463-4A1F-B30B-094881E2D141}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{82AAE49F-8463-4A1F-B30B-094881E2D141}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{82AAE49F-8463-4A1F-B30B-094881E2D141}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{82AAE49F-8463-4A1F-B30B-094881E2D141}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{82AAE49F-8463-4A1F-B30B-094881E2D141}.Release|Any CPU.Build.0 = Release|Any CPU
-		{82AAE49F-8463-4A1F-B30B-094881E2D141}.Release|ARM.ActiveCfg = Release|Any CPU
-		{82AAE49F-8463-4A1F-B30B-094881E2D141}.Release|x86.ActiveCfg = Release|Any CPU
 		{A3E70ADA-08B3-4977-9254-34A33E682326}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A3E70ADA-08B3-4977-9254-34A33E682326}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3E70ADA-08B3-4977-9254-34A33E682326}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -77,6 +59,14 @@ Global
 		{D96B5211-E865-4755-80AF-4FB05C67E1EF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D96B5211-E865-4755-80AF-4FB05C67E1EF}.Release|ARM.ActiveCfg = Release|Any CPU
 		{D96B5211-E865-4755-80AF-4FB05C67E1EF}.Release|x86.ActiveCfg = Release|Any CPU
+		{ED6E1C58-343F-4897-AF44-9FF42A2C0E3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED6E1C58-343F-4897-AF44-9FF42A2C0E3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED6E1C58-343F-4897-AF44-9FF42A2C0E3B}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{ED6E1C58-343F-4897-AF44-9FF42A2C0E3B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{ED6E1C58-343F-4897-AF44-9FF42A2C0E3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED6E1C58-343F-4897-AF44-9FF42A2C0E3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED6E1C58-343F-4897-AF44-9FF42A2C0E3B}.Release|ARM.ActiveCfg = Release|Any CPU
+		{ED6E1C58-343F-4897-AF44-9FF42A2C0E3B}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

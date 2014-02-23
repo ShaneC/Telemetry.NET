@@ -10,7 +10,7 @@ namespace Telemetry.Serializers {
 
 	public class JsonSerializer : ISerializer {
 
-		public string SerializeToText( IReport report ) {
+		public string SerializeToText( TelemetryReport report ) {
 			return SerializeToText( report.GetDataPoints() );
 		}
 

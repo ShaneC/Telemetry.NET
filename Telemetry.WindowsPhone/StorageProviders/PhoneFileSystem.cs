@@ -5,8 +5,7 @@ using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Telemetry;
-using Telemetry.Core.StorageProviders;
+using Telemetry.Core;
 using Telemetry.Serializers;
 
 namespace Telemetry.StorageProviders {
@@ -39,7 +38,7 @@ namespace Telemetry.StorageProviders {
 			throw new NotImplementedException();
 		}
 
-		public override void WriteToTempStorage( Core.IReport report ) {
+		public override void WriteToTempStorage( TelemetryReport report ) {
 			throw new NotImplementedException();
 		}
 
