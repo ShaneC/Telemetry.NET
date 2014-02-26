@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Xml.Linq;
 using Telemetry.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Telemetry.StorageProviders;
+using System.Threading.Tasks;
 
 namespace Telemetry.Test.UnitTests {
 
@@ -12,6 +14,14 @@ namespace Telemetry.Test.UnitTests {
 	[TestClass]
 	public class ReportingTest {
 
+		AzureTableStorageProvider testStorage = new AzureTableStorageProvider( 
+			new AzureTableStorageSettings {
+				StorageKey = "xyz",
+				TableName = "tableName",
+				SchemaDefinition = null
+			} 
+		);
+
 		[TestMethod]
 		public void TestMethod1() {
 
@@ -21,6 +31,7 @@ namespace Telemetry.Test.UnitTests {
 				throw new GenericException( ErrorCode.GENERIC_CRITICAL_ERROR, "Something happened" );
 			} catch( GenericException e ) {
 				ErrorReport report = new ErrorReport( e, e.HResult );
+				report.LogDataPoint( "point", "value" );
 				telemetryClient.AddActiveReport( report );
 			}
 
@@ -31,19 +42,28 @@ namespace Telemetry.Test.UnitTests {
 				telemetryClient.AddActiveReport( report );
 			}
 
+			//telemetryClient.UploadActiveReportsAsync( testStorage );
+
 		}
 
 		[TestMethod]
 		public void TestMethod2() {
 
 			TelemetryClient telemetryClient = new TelemetryClient();
+			ErrorReport report;
 
 			try {
 				throw new GenericException( ErrorCode.GENERIC_CRITICAL_ERROR, "Something happened" );
 			} catch( GenericException e ) {
-				ErrorReport report = new ErrorReport( e, e.HResult );
-				telemetryClient.UploadAsync( report, new AzureTableStorageProvider( null ) );
+				report = new ErrorReport( e, e.HResult );
+				System.Diagnostics.Debug.WriteLine( "Before A" );
 			}
+
+			telemetryClient.UploadAsync( report, testStorage );
+
+			System.Diagnostics.Debug.WriteLine( "After A" );
+
+			System.Diagnostics.Debug.WriteLine( "End of line." );
 
 		}
 

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Telemetry.Core;
+using Telemetry.Exceptions;
 
 namespace Telemetry.StorageProviders {
 
@@ -19,9 +20,15 @@ namespace Telemetry.StorageProviders {
 
 		private void ValidateSettings( AzureTableStorageSettings settings ) {
 			// TODO: Validate Azure Settings & Schema Definition
+			if( false )
+				throw new StorageProviderException( "Azure Table Storage Settings contained an invalid property." );
 		}
 
-		public override void UploadToStorage( TelemetryReport report ) {
+		public async override Task UploadToStorage( TelemetryReport report ) {
+			throw new NotImplementedException();
+		}
+
+		public async override Task UploadToStorage( List<TelemetryReport> reports ) {
 			throw new NotImplementedException();
 		}
 

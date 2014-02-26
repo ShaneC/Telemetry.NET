@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Telemetry.StorageProviders;
 
 namespace Telemetry.Core {
@@ -23,9 +24,13 @@ namespace Telemetry.Core {
 		private List<TelemetryReport> _activeReports = new List<TelemetryReport>();
 
 		/// <summary>
-		/// Dictionary containing data points to be added to all reports handled by this client.
+		/// Dictionary containing data points to be added to all reports handled by this client. Read only. Modify using <see cref="LogGlobalDataPoint"/> method.
 		/// </summary>
-		public Dictionary<string, object> GlobalDataPoints = new Dictionary<string, object>();
+		public Dictionary<string, object> GlobalDataPoints {
+			get { return _globalDataPoints; }
+			private set { _globalDataPoints = value; }
+		}
+		private Dictionary<string, object> _globalDataPoints = new Dictionary<string,object>();
 
 		/// <summary>
 		/// Creates a new Telemery Client instance.
@@ -52,8 +57,8 @@ namespace Telemetry.Core {
 		/// Immediately uploads all reports stored in the client to the <see cref="ReportStorageProvider" />.
 		/// </summary>
 		/// <param name="provider">Non-Temporary Report Storage Provider</param>
-		public void UploadActiveReportsAsync( ReportStorageProvider provider ) {
-			UploadAsync( ActiveReports, provider );
+		public Task UploadActiveReportsAsync( ReportStorageProvider provider ) {
+			return UploadAsync( ActiveReports, provider );
 		}
 
 		/// <summary>
@@ -61,9 +66,13 @@ namespace Telemetry.Core {
 		/// </summary>
 		/// <param name="report">Report to be uploaded</param>
 		/// <param name="provider">Non-Temporary Report Storage Provider</param>
-		public void UploadAsync( TelemetryReport report, ReportStorageProvider provider ) {
+		//public async Task UploadAsync( TelemetryReport report, ReportStorageProvider provider ) {
+		//	PreProcessReport( report );
+		//	await Task.Run( () => { provider.UploadToStorage( report ); } );
+		//}
+		public Task UploadAsync( TelemetryReport report, ReportStorageProvider provider ) {
 			PreProcessReport( report );
-			provider.UploadToStorage( report );
+			return provider.UploadToStorage( report );
 		}
 
 		/// <summary>
@@ -71,9 +80,30 @@ namespace Telemetry.Core {
 		/// </summary>
 		/// <param name="report">Report to be uploaded</param>
 		/// <param name="provider">Non-Temporary Report Storage Provider</param>
-		public void UploadAsync( List<TelemetryReport> reports, ReportStorageProvider provider ) {
+		public Task UploadAsync( List<TelemetryReport> reports, ReportStorageProvider provider ) {
 			PreProcessReport( reports );
-			provider.UploadToStorage( reports );
+			return provider.UploadToStorage( reports );
+		}
+
+		/// <summary>
+		/// Logs a set of data points to be added to all reports handled by this client.
+		/// </summary>
+		/// <param name="dataPoints">List containing the set of data points to be added.</param>
+		public void RegisterGlobalDataPoint( List<KeyValuePair<string, object>> dataPoints ) {
+			foreach( var dataPoint in dataPoints )
+				RegisterGlobalDataPoint( dataPoint.Key, dataPoint.Value );
+		}
+
+		/// <summary>
+		/// Logs a data point to be added to all reports handled by this client.
+		/// </summary>
+		/// <param name="dataPoint">Key of the data point.</param>
+		/// <param name="value">Value of the specified data point.</param>
+		public void RegisterGlobalDataPoint( string dataPoint, object value ) {
+			if( !_globalDataPoints.ContainsKey( dataPoint ) )
+				_globalDataPoints.Add( dataPoint, value );
+			else
+				_globalDataPoints[dataPoint] = value;
 		}
 
 		private void PreProcessReport( List<TelemetryReport> reports ) {

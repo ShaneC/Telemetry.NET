@@ -27,6 +27,20 @@ namespace Telemetry.Core {
 
 		protected Dictionary<string, object> _parameters = new Dictionary<string, object>();
 
+		/// <summary>
+		/// Logs a set of data points to be saved with this report.
+		/// </summary>
+		/// <param name="dataPoints">List containing the set of data points to be added.</param>
+		public void LogDataPoint( List<KeyValuePair<string, object>> dataPoints ) {
+			foreach( var dataPoint in dataPoints )
+				LogDataPoint( dataPoint.Key, dataPoint.Value );
+		}
+
+		/// <summary>
+		/// Logs a data point to be saved with this report.
+		/// </summary>
+		/// <param name="dataPoint">Key of the data point.</param>
+		/// <param name="value">Value of the specified data point.</param>
 		public void LogDataPoint( string dataPoint, object value ) {
 			if( !_parameters.ContainsKey( dataPoint ) )
 				_parameters.Add( dataPoint, value );

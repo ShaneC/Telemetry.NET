@@ -38,6 +38,7 @@
   <ItemGroup>
     <Compile Include="Enums.cs" />
     <Compile Include="ErrorReport.cs" />
+    <Compile Include="Exceptions\StorageProviderException.cs" />
     <Compile Include="StorageProviders\ReportStorageProvider.cs" />
     <Compile Include="Serializers\ISerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

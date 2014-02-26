@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Telemetry.Core;
 
 namespace Telemetry.StorageProviders {
@@ -12,16 +13,13 @@ namespace Telemetry.StorageProviders {
 		/// Uploads a set of reports to the report storage provider.
 		/// </summary>
 		/// <param name="reports">List containing reports for upload</param>
-		public void UploadToStorage( List<TelemetryReport> reports ) {
-			foreach( var report in reports )
-				UploadToStorage( report );
-		}
+		public abstract Task UploadToStorage( List<TelemetryReport> reports );
 
 		/// <summary>
 		/// Uploads a report to the report storage provider.
 		/// </summary>
 		/// <param name="report"></param>
-		public abstract void UploadToStorage( TelemetryReport report );
+		public abstract Task UploadToStorage( TelemetryReport report );
 
 	}
 
