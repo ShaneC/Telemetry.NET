@@ -3,9 +3,6 @@ using System.Xml.Linq;
 using Telemetry.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Telemetry.StorageProviders;
-using System.Threading.Tasks;
-using Telemetry.Test.UnitTests.TestStorageProviders;
-using Telemetry.Serializers;
 
 namespace Telemetry.Test.UnitTests {
 
@@ -25,7 +22,7 @@ namespace Telemetry.Test.UnitTests {
 		);
 
 		[TestMethod]
-		public void ActiveReportsAddition() {
+		public void TestMethod1() {
 
 			TelemetryClient telemetryClient = new TelemetryClient();
 
@@ -44,26 +41,21 @@ namespace Telemetry.Test.UnitTests {
 				telemetryClient.AddActiveReport( report );
 			}
 
-			Assert.AreEqual( 2, telemetryClient.ActiveReports.Count );
+			telemetryClient.UploadActiveReportsAsync( testStorage );
 
 		}
 
 		[TestMethod]
-		[Ignore]
-		public async Task ExceptionLogging() {
+		public void TestMethod2() {
 
 			TelemetryClient telemetryClient = new TelemetryClient();
-			ErrorReport report;
 
 			try {
-				throw new Exception( ErrorCode.GENERIC_CRITICAL_ERROR + "Something happened" );
-			} catch( Exception e ) {
-				report = new ErrorReport( e, e.HResult );
+				throw new GenericException( ErrorCode.GENERIC_CRITICAL_ERROR, "Something happened" );
+			} catch( GenericException e ) {
+				ErrorReport report = new ErrorReport( e, e.HResult );
+				telemetryClient.UploadAsync( report, testStorage );
 			}
-
-			var localStorage = new LocalTestStorageProvider( new JsonSerializer() );
-
-			await telemetryClient.SaveToTempStorageAsync( report, localStorage );
 
 		}
 

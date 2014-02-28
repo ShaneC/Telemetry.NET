@@ -1,7 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <AzureTable>
-	<Column key="true">
+	<Column>
 		<AzureColumnName>_ActivityTime</AzureColumnName>
 		<DataPointName>ActivityTime</DataPointName>
+	</Column>
+	<Column>
+		<AzureColumnName>_ErrorCode</AzureColumnName>
+		<DataPointName>ErrorCode</DataPointName>
+	</Column>
+	<Column>
+		<AzureColumnName>_StatusCode</AzureColumnName>
+		<DataPointName>StatusCode</DataPointName>
+	</Column>
+	<Column>
+		<AzureColumnName>Exception</AzureColumnName>
+		<DataPointName>Exception</DataPointName>
 	</Column>
 </AzureTable>

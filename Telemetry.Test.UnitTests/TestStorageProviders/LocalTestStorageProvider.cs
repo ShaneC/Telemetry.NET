@@ -57,7 +57,7 @@ namespace Telemetry.Test.UnitTests.TestStorageProviders {
 				string[] fileEntries = Directory.GetFiles( ReportFileDirectory );
 				foreach( string fileName in fileEntries ) {
 
-					string[] lines = File.ReadAllLines( ReportFileDirectory + fileName );
+					string[] lines = File.ReadAllLines( Path.Combine( ReportFileDirectory, fileName ) );
 
 					foreach( string line in lines ) {
 						reports.Add( Serializer.DeserializeReport( line ) );
@@ -68,6 +68,15 @@ namespace Telemetry.Test.UnitTests.TestStorageProviders {
 				return ( ( reports.Count < 1 ) ? null : reports );
 
 			} );
+
+		}
+
+		public void DeleteAllCurrentReports() {
+
+			string[] fileEntries = Directory.GetFiles( ReportFileDirectory );
+			foreach( string fileName in fileEntries ) {
+				File.Delete( Path.Combine( ReportFileDirectory, fileName ) );
+			}
 
 		}
 

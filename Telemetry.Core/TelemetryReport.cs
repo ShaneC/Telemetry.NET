@@ -85,10 +85,10 @@ namespace Telemetry.Core {
 				report._activityTime = DateTime.Parse( dataPoints["ActivityTime"].ToString() );
 
 			if( dataPoints.ContainsKey( "StatusCode" ) )
-				report._statusCode = Int16.Parse( dataPoints["StatusCode"].ToString() );
+				report._statusCode = Int32.Parse( dataPoints["StatusCode"].ToString() );
 
 			if( dataPoints.ContainsKey( "ErrorCode" ) )
-				report._errorCode = Int16.Parse( dataPoints["ErrorCode"].ToString() );
+				report._errorCode = Int32.Parse( dataPoints["ErrorCode"].ToString() );
 
 			return report;
 
