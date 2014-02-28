@@ -15,12 +15,12 @@ namespace Telemetry.Core {
 			get { return _exception; }
 			set {
 				_exception = value;
-				LogDataPoint( "Exception", value );
+				LogDataPoint( "Exception", value.ToString() );
 				// Log all InnerExceptions
 				int i = 0;
 				var inner = value.InnerException;
 				while( inner != null ) {
-					LogDataPoint( "InnerException_" + i, inner );
+					LogDataPoint( "InnerException_" + i, inner.ToString() );
 					inner = inner.InnerException;
 					i++;
 				}

@@ -16,7 +16,8 @@ namespace Telemetry.Test.UnitTests.TestStorageProviders {
 
 		public LocalTestStorageProvider( ISerializer serializer )
 			: base( serializer ) {
-
+				if( !Directory.Exists( ReportFileDirectory ) )
+					Directory.CreateDirectory( ReportFileDirectory );
 		}
 
 		public override async Task WriteDataAsync( List<TelemetryReport> reports ) {

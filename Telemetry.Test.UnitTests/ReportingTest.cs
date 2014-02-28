@@ -4,6 +4,8 @@ using Telemetry.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Telemetry.StorageProviders;
 using System.Threading.Tasks;
+using Telemetry.Test.UnitTests.TestStorageProviders;
+using Telemetry.Serializers;
 
 namespace Telemetry.Test.UnitTests {
 
@@ -23,7 +25,7 @@ namespace Telemetry.Test.UnitTests {
 		);
 
 		[TestMethod]
-		public void TestMethod1() {
+		public void ActiveReportsAddition() {
 
 			TelemetryClient telemetryClient = new TelemetryClient();
 
@@ -42,28 +44,26 @@ namespace Telemetry.Test.UnitTests {
 				telemetryClient.AddActiveReport( report );
 			}
 
-			//telemetryClient.UploadActiveReportsAsync( testStorage );
+			Assert.AreEqual( 2, telemetryClient.ActiveReports.Count );
 
 		}
 
 		[TestMethod]
-		public void TestMethod2() {
+		[Ignore]
+		public async Task ExceptionLogging() {
 
 			TelemetryClient telemetryClient = new TelemetryClient();
 			ErrorReport report;
 
 			try {
-				throw new GenericException( ErrorCode.GENERIC_CRITICAL_ERROR, "Something happened" );
-			} catch( GenericException e ) {
+				throw new Exception( ErrorCode.GENERIC_CRITICAL_ERROR + "Something happened" );
+			} catch( Exception e ) {
 				report = new ErrorReport( e, e.HResult );
-				System.Diagnostics.Debug.WriteLine( "Before A" );
 			}
 
-			telemetryClient.UploadAsync( report, testStorage );
+			var localStorage = new LocalTestStorageProvider( new JsonSerializer() );
 
-			System.Diagnostics.Debug.WriteLine( "After A" );
-
-			System.Diagnostics.Debug.WriteLine( "End of line." );
+			await telemetryClient.SaveToTempStorageAsync( report, localStorage );
 
 		}
 

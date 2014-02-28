@@ -1,7 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using Telemetry.Core;
@@ -15,15 +18,7 @@ namespace Telemetry.Serializers {
 		}
 
 		public string SerializeToText( Dictionary<string, object> parameters ) {
-
-			DataContractJsonSerializer serializer = new DataContractJsonSerializer( parameters.GetType() );
-			using( var stream = new MemoryStream() ) {
-				serializer.WriteObject( stream, parameters );
-				using( var reader = new StreamReader( stream ) ) {
-					return reader.ReadToEnd();
-				}
-			}
-
+			return JsonConvert.SerializeObject( parameters );
 		}
 
 		public TelemetryReport DeserializeReport( string input ) {
@@ -31,13 +26,7 @@ namespace Telemetry.Serializers {
 		}
 
 		public Dictionary<string, object> DeserializeDataPoints( string input ) {
-
-			DataContractJsonSerializer serializer = new DataContractJsonSerializer( typeof( Dictionary<string, object> ) );
-
-			using( var stream = new MemoryStream( Encoding.UTF8.GetBytes( input ) ) ) {
-				return serializer.ReadObject( stream ) as Dictionary<string, object>;
-			}
-
+			return JsonConvert.DeserializeObject<Dictionary<string, object>>( input );
 		}
 
 	}

@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AzureTable>
+	<Column key="true">
+		<AzureColumnName>_ActivityTime</AzureColumnName>
+		<DataPointName>ActivityTime</DataPointName>
+	</Column>
+</AzureTable>

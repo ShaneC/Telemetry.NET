@@ -10,6 +10,11 @@ namespace Telemetry.Core {
 	public class TelemetryClient {
 
 		/// <summary>
+		/// If lower than 100, only a percentage of reports handled by the client will be uploaded.
+		/// </summary>
+		public double SamplingPercentage = 100;
+
+		/// <summary>
 		/// Unique ID representing this instance of the TelemetryClient. Helpful for pivoting multiple reports on a single call context.
 		/// </summary>
 		public string TelemetrySessionID { get; set; }
