@@ -9,9 +9,10 @@ namespace Telemetry.Test.UnitTests {
 
 	[TestClass]
 	public class MonitoringTest {
-	
+		
+		[TestCategory("Monitoring")]
 		[TestMethod]
-		public void TestMethod1() {
+		public void Monitoring() {
 
 		}
 
