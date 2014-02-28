@@ -35,8 +35,21 @@ namespace Telemetry.StorageProviders {
 	}
 
 	public class AzureTableStorageSettings {
+		/// <summary>
+		/// Storage endpoint provided by the Azure management portal
+		/// </summary>
+		public string UrlEndpoint { get; set; }
+		/// <summary>
+		/// Public or private key for accessing Azure resources
+		/// </summary>
 		public string StorageKey { get; set; }
+		/// <summary>
+		/// Name of the Azure Table to query
+		/// </summary>
 		public string TableName { get; set; }
+		/// <summary>
+		/// Xml Document detailing the column-to-data-point map by which data points are populated
+		/// </summary>
 		public XDocument SchemaDefinition { get; set; }
 	}
 

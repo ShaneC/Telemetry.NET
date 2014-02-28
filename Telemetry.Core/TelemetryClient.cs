@@ -54,6 +54,28 @@ namespace Telemetry.Core {
 		}
 
 		/// <summary>
+		/// Appends global data points to report and then saves the report to the specified <see cref="TempStorageProvider"/>.
+		/// </summary>
+		/// <param name="report">Report to be added to the Temporary Storage Provider.</param>
+		/// <param name="tempProvider">Temporary Report Storage Provider</param>
+		/// <param name="omitGlobals">Should Global Data Points be ommitted for saved reports? Defaults to false.</param>
+		public Task SaveToTempStorageAsync( TelemetryReport report, TempStorageProvider tempProvider, bool omitGlobals = false ) {
+			PreProcessReport( report, omitGlobals );
+			return tempProvider.WriteDataAsync( report );
+		}
+
+		/// <summary>
+		/// Appends global data points to a set of reports and then saves the reports to the specified <see cref="TempStorageProvider"/>.
+		/// </summary>
+		/// <param name="reports">Set of reports to be added to the Temporary Storage Provider.</param>
+		/// <param name="tempProvider">Temporary Report Storage Provider</param>
+		/// <param name="omitGlobals">Should Global Data Points be ommitted for saved reports? Defaults to false.</param>
+		public Task SaveToTempStorageAsync( List<TelemetryReport> reports, TempStorageProvider tempProvider, bool omitGlobals = false ) {
+			PreProcessReport( reports, omitGlobals );
+			return tempProvider.WriteDataAsync( reports );
+		}
+
+		/// <summary>
 		/// Immediately uploads all reports stored in the client to the <see cref="ReportStorageProvider" />.
 		/// </summary>
 		/// <param name="provider">Non-Temporary Report Storage Provider</param>
@@ -66,12 +88,9 @@ namespace Telemetry.Core {
 		/// </summary>
 		/// <param name="report">Report to be uploaded</param>
 		/// <param name="provider">Non-Temporary Report Storage Provider</param>
-		//public async Task UploadAsync( TelemetryReport report, ReportStorageProvider provider ) {
-		//	PreProcessReport( report );
-		//	await Task.Run( () => { provider.UploadToStorage( report ); } );
-		//}
-		public Task UploadAsync( TelemetryReport report, ReportStorageProvider provider ) {
-			PreProcessReport( report );
+		/// <param name="omitGlobals">Should Global Data Points be ommitted for saved reports? Defaults to false.</param>
+		public Task UploadAsync( TelemetryReport report, ReportStorageProvider provider, bool omitGlobals = false ) {
+			PreProcessReport( report, omitGlobals );
 			return provider.UploadToStorage( report );
 		}
 
@@ -80,8 +99,9 @@ namespace Telemetry.Core {
 		/// </summary>
 		/// <param name="report">Report to be uploaded</param>
 		/// <param name="provider">Non-Temporary Report Storage Provider</param>
-		public Task UploadAsync( List<TelemetryReport> reports, ReportStorageProvider provider ) {
-			PreProcessReport( reports );
+		/// <param name="omitGlobals">Should Global Data Points be ommitted for saved reports? Defaults to false.</param>
+		public Task UploadAsync( List<TelemetryReport> reports, ReportStorageProvider provider, bool omitGlobals = false ) {
+			PreProcessReport( reports, omitGlobals );
 			return provider.UploadToStorage( reports );
 		}
 
@@ -106,16 +126,18 @@ namespace Telemetry.Core {
 				_globalDataPoints[dataPoint] = value;
 		}
 
-		private void PreProcessReport( List<TelemetryReport> reports ) {
+		private void PreProcessReport( List<TelemetryReport> reports, bool omitGlobals ) {
 			foreach( TelemetryReport report in reports )
-				PreProcessReport( report );
+				PreProcessReport( report, omitGlobals );
 		}
 
-		private void PreProcessReport( TelemetryReport report ) {
+		private void PreProcessReport( TelemetryReport report, bool omitGlobals ) {
 			if( TelemetrySessionID != null )
 				report.LogDataPoint( "TelemetrySessionID", TelemetrySessionID );
-			foreach( KeyValuePair<string, object> item in GlobalDataPoints )
-				report.LogDataPoint( item.Key, item.Value );
+			if( !omitGlobals ) {
+				foreach( KeyValuePair<string, object> item in GlobalDataPoints )
+					report.LogDataPoint( item.Key, item.Value );
+			}
 		}
 
 	}

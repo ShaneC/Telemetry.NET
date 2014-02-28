@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Telemetry.Core;
 using Telemetry.Serializers;
 using Telemetry.StorageProviders;
@@ -16,11 +17,15 @@ namespace Telemetry.StorageProviders {
 			Serializer = serializer;
 		}
 
-		public abstract void WriteToTempStorage( TelemetryReport report );
+		public abstract Task WriteDataAsync( List<TelemetryReport> reports );
 
-		public abstract List<TelemetryReport> ReadAllFromTempStorage();
+		public abstract Task WriteDataAsync( TelemetryReport report );
 
-		public abstract void UploadAllFromTempStorage( ReportStorageProvider reportStorageProvider );
+		public abstract Task<List<TelemetryReport>> ReadAllDataAsync();
+
+		public async Task UploadAllDataAsync( ReportStorageProvider reportStorageProvider ) {
+			await reportStorageProvider.UploadToStorage( await ReadAllDataAsync() );
+		}
 
 	}
 

@@ -12,7 +12,9 @@ namespace Telemetry.Serializers {
 
 		string SerializeToText( Dictionary<string, object> parameters );
 
-		Dictionary<string, object> DeserializeFromText( string input );
+		Dictionary<string, object> DeserializeDataPoints( string input );
+
+		TelemetryReport DeserializeReport( string input );
 
 	}
 

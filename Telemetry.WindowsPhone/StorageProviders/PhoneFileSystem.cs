@@ -34,19 +34,16 @@ namespace Telemetry.StorageProviders {
 
 		}
 
-		public void SaveData( byte[] data ) {
+
+		public override Task WriteDataAsync( List<TelemetryReport> reports ) {
 			throw new NotImplementedException();
 		}
 
-		public override void WriteToTempStorage( TelemetryReport report ) {
+		public override Task WriteDataAsync( TelemetryReport report ) {
 			throw new NotImplementedException();
 		}
 
-		public override List<TelemetryReport> ReadAllFromTempStorage() {
-			throw new NotImplementedException();
-		}
-
-		public override void UploadAllFromTempStorage( ReportStorageProvider reportStorageProvider ) {
+		public override Task<List<TelemetryReport>> ReadAllDataAsync() {
 			throw new NotImplementedException();
 		}
 

@@ -15,6 +15,7 @@ namespace Telemetry.Serializers {
 		}
 
 		public string SerializeToText( Dictionary<string, object> parameters ) {
+
 			DataContractJsonSerializer serializer = new DataContractJsonSerializer( parameters.GetType() );
 			using( var stream = new MemoryStream() ) {
 				serializer.WriteObject( stream, parameters );
@@ -22,10 +23,21 @@ namespace Telemetry.Serializers {
 					return reader.ReadToEnd();
 				}
 			}
+
 		}
 
-		public Dictionary<string, object> DeserializeFromText( string input ) {
-			throw new NotImplementedException();
+		public TelemetryReport DeserializeReport( string input ) {
+			return TelemetryReport.CreateReportFromDataPoints( DeserializeDataPoints( input ) );
+		}
+
+		public Dictionary<string, object> DeserializeDataPoints( string input ) {
+
+			DataContractJsonSerializer serializer = new DataContractJsonSerializer( typeof( Dictionary<string, object> ) );
+
+			using( var stream = new MemoryStream( Encoding.UTF8.GetBytes( input ) ) ) {
+				return serializer.ReadObject( stream ) as Dictionary<string, object>;
+			}
+
 		}
 
 	}

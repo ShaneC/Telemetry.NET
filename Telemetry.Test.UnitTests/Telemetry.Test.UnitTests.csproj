@@ -55,6 +55,7 @@
     <Compile Include="MonitoringTest.cs" />
     <Compile Include="ReportingTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestStorageProviders\LocalTestStorageProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Telemetry.Azure\Telemetry.Azure.csproj">

@@ -72,6 +72,29 @@ namespace Telemetry.Core {
 		}
 
 		/// <summary>
+		/// Creates a new <see cref="TelemetryReport"/> from available data points.
+		/// </summary>
+		/// <param name="dataPoints">Set of data points used to initialize the report.</param>
+		/// <returns>TelemetryReport.</returns>
+		public static TelemetryReport CreateReportFromDataPoints( Dictionary<string, object> dataPoints ){
+
+			TelemetryReport report = new TelemetryReport();
+			report._parameters = dataPoints;
+
+			if( dataPoints.ContainsKey( "ActivityTime" ) )
+				report._activityTime = DateTime.Parse( dataPoints["ActivityTime"].ToString() );
+
+			if( dataPoints.ContainsKey( "StatusCode" ) )
+				report._statusCode = Int16.Parse( dataPoints["StatusCode"].ToString() );
+
+			if( dataPoints.ContainsKey( "ErrorCode" ) )
+				report._errorCode = Int16.Parse( dataPoints["ErrorCode"].ToString() );
+
+			return report;
+
+		}
+
+		/// <summary>
 		/// Re-logs base data points to ensure they're part of the report output. Seems sloppy, unsure of a better way to implement.
 		/// </summary>
 		private void RefreshBaseDataPoints() {
