@@ -1,21 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization.Json;
-using System.Text;
-using System.Runtime.InteropServices;
 
 namespace Telemetry.Core {
 	
 	public class ErrorReport : TelemetryReport {
 
-		private Exception _exception = null;
 		public Exception Exception {
 			get { return _exception; }
 			set {
 				_exception = value;
 				LogDataPoint( "Exception", value.ToString() );
+				LogDataPoint( "HResult", value.HResult );
 				// Log all InnerExceptions
 				int i = 0;
 				var inner = value.InnerException;
@@ -26,8 +21,13 @@ namespace Telemetry.Core {
 				}
 			}
 		}
+		private Exception _exception = null;
 
-		public Dictionary<object, object> DebugData = new Dictionary<object, object>();
+		public Dictionary<object, object> DebugData {
+			get { return _debugData; }
+			set { _debugData = value; }
+		}
+		private Dictionary<object, object> _debugData = new Dictionary<object, object>();
 
 		public ErrorReport( Exception e ) {
 			Exception = e;

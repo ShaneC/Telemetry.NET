@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Telemetry.Core;
 using Telemetry.Serializers;
-using Telemetry.StorageProviders;
 
 namespace Telemetry.StorageProviders {
 
@@ -24,7 +20,7 @@ namespace Telemetry.StorageProviders {
 		public abstract Task<List<TelemetryReport>> ReadAllDataAsync();
 
 		public async Task UploadAllDataAsync( ReportStorageProvider reportStorageProvider ) {
-			await reportStorageProvider.UploadToStorage( await ReadAllDataAsync() );
+			await reportStorageProvider.SaveToStorage( await ReadAllDataAsync() );
 		}
 
 	}

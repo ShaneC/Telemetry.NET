@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Telemetry.StorageProviders;
 
 namespace Telemetry.Core {
 
-	public class TelemetryClient {
+	public partial class TelemetryClient {
 
 		/// <summary>
 		/// If lower than 100, only a percentage of reports handled by the client will be uploaded.
@@ -96,7 +93,7 @@ namespace Telemetry.Core {
 		/// <param name="omitGlobals">Should Global Data Points be ommitted for saved reports? Defaults to false.</param>
 		public Task UploadAsync( TelemetryReport report, ReportStorageProvider provider, bool omitGlobals = false ) {
 			PreProcessReport( report, omitGlobals );
-			return provider.UploadToStorage( report );
+			return provider.SaveToStorage( report );
 		}
 
 		/// <summary>
@@ -107,7 +104,7 @@ namespace Telemetry.Core {
 		/// <param name="omitGlobals">Should Global Data Points be ommitted for saved reports? Defaults to false.</param>
 		public Task UploadAsync( List<TelemetryReport> reports, ReportStorageProvider provider, bool omitGlobals = false ) {
 			PreProcessReport( reports, omitGlobals );
-			return provider.UploadToStorage( reports );
+			return provider.SaveToStorage( reports );
 		}
 
 		/// <summary>

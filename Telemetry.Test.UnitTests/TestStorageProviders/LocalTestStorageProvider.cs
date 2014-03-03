@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Telemetry.Core;
 using Telemetry.Serializers;
@@ -12,7 +10,7 @@ namespace Telemetry.Test.UnitTests.TestStorageProviders {
 
 	public class LocalTestStorageProvider : TempStorageProvider {
 
-		private readonly string ReportFileDirectory = "C:\\TelemetryTests\\LocalTestStorageProviderLogs\\";
+		private string ReportFileDirectory = "C:\\TelemetryTests\\LocalTestStorageProviderLogs\\";
 
 		public LocalTestStorageProvider( ISerializer serializer )
 			: base( serializer ) {

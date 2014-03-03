@@ -1,12 +1,10 @@
-﻿using System;
-using System.Xml.Linq;
-using Telemetry.Core;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Telemetry.StorageProviders;
-using System.Threading.Tasks;
-using Telemetry.Test.UnitTests.TestStorageProviders;
-using Telemetry.Serializers;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Telemetry.Core;
+using Telemetry.Serializers;
+using Telemetry.Test.UnitTests.TestStorageProviders;
 
 namespace Telemetry.Test.UnitTests {
 
@@ -16,14 +14,6 @@ namespace Telemetry.Test.UnitTests {
 
 	[TestClass]
 	public class TempStorageTest {
-
-		AzureTableStorageProvider testStorage = new AzureTableStorageProvider( 
-			new AzureTableStorageSettings {
-				StorageKey = "xyz",
-				TableName = "tableName",
-				SchemaDefinition = null
-			} 
-		);
 
 		[TestCategory( "Reporting" )]
 		[TestMethod]
@@ -58,7 +48,7 @@ namespace Telemetry.Test.UnitTests {
 
 			Assert.AreEqual( 2, reports.Count );
 
-			localStorage.DeleteAllCurrentReports();
+			//localStorage.DeleteAllCurrentReports();
 
 		}
 
