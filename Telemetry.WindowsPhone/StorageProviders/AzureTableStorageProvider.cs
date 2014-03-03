@@ -2,10 +2,12 @@
 using Microsoft.WindowsAzure.Storage.Table;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Telemetry.Core;
 using Telemetry.Exceptions;
+using Telemetry.Serializers;
 
 namespace Telemetry.StorageProviders {
 
@@ -16,6 +18,17 @@ namespace Telemetry.StorageProviders {
 		private CloudStorageAccount StorageAccount;
 		private CloudTableClient TableClient;
 		private CloudTable StorageTable;
+
+		private Dictionary<string, string> AzureColumnMap = new Dictionary<string, string>();
+		private string UnmappedColumn;
+
+		private Dictionary<string, object> UnmappedDataPoints = new Dictionary<string, object>();
+
+		public ISerializer Serializer {
+			get { return _serializer; }
+			set { _serializer = value; }
+		}
+		private ISerializer _serializer = new JsonSerializer();
 
 		public AzureTableStorageProvider( AzureTableStorageSettings settings ) {
 			LoadSettings( settings );
@@ -41,6 +54,14 @@ namespace Telemetry.StorageProviders {
 
 		public override Task SaveToStorage( List<TelemetryReport> reports ) {
 			return Task.Run( () => { } );
+		}
+
+		public static XDocument GetDefaultSchema() {
+			using( Stream stream = typeof(AzureTableStorageProvider).Assembly.GetManifestResourceStream( "Telemetry.WindowsPhone.Mappings.DefaultAzureTableSchema.xml" ) ) {
+				using( StreamReader reader = new StreamReader( stream ) ) {
+					return XDocument.Parse( reader.ReadToEnd() );
+				}
+			}
 		}
 
 	}
