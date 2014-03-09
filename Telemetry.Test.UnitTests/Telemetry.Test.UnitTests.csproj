@@ -52,6 +52,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AzureStorageProviderTest.cs" />
     <Compile Include="JsonSerializerTest.cs" />
     <Compile Include="MonitoringTest.cs" />
     <Compile Include="TempStorageTest.cs" />
@@ -59,6 +60,10 @@
     <Compile Include="TestStorageProviders\LocalTestStorageProvider.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Telemetry.CommonProviders\Telemetry.CommonProviders.csproj">
+      <Project>{0d24c7ec-6b4b-4178-ab72-e761f129c82f}</Project>
+      <Name>Telemetry.CommonProviders</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Telemetry.Core\Telemetry.Core.csproj">
       <Project>{922dd146-652b-4b69-9f41-f846d5af0a9b}</Project>
       <Name>Telemetry.Core</Name>

@@ -3,6 +3,8 @@ using Microsoft.WindowsAzure.Storage.Table;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Telemetry.Core;
@@ -20,7 +22,7 @@ namespace Telemetry.StorageProviders {
 		private CloudTable StorageTable;
 
 		private Dictionary<string, string> AzureColumnMap = new Dictionary<string, string>();
-		private string UnmappedColumn;
+		//private string UnmappedColumn;
 
 		private Dictionary<string, object> UnmappedDataPoints = new Dictionary<string, object>();
 
@@ -57,11 +59,13 @@ namespace Telemetry.StorageProviders {
 		}
 
 		public static XDocument GetDefaultSchema() {
-			using( Stream stream = typeof(AzureTableStorageProvider).Assembly.GetManifestResourceStream( "Telemetry.WindowsPhone.Mappings.DefaultAzureTableSchema.xml" ) ) {
+
+			using( Stream stream = new MemoryStream( Encoding.UTF8.GetBytes( AzureStorageResources.DefaultAzureTableSchema ) ) ) {
 				using( StreamReader reader = new StreamReader( stream ) ) {
 					return XDocument.Parse( reader.ReadToEnd() );
 				}
 			}
+
 		}
 
 	}
