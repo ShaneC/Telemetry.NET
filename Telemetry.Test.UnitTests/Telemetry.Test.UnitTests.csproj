@@ -53,6 +53,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AzureStorageProviderTest.cs" />
+    <Compile Include="GenericException.cs" />
     <Compile Include="JsonSerializerTest.cs" />
     <Compile Include="MonitoringTest.cs" />
     <Compile Include="TempStorageTest.cs" />

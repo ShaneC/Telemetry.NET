@@ -8,10 +8,6 @@ using Telemetry.Test.UnitTests.TestStorageProviders;
 
 namespace Telemetry.Test.UnitTests {
 
-	public enum ErrorCode {
-		GENERIC_CRITICAL_ERROR = -20031234
-	}
-
 	[TestClass]
 	public class TempStorageTest {
 
@@ -48,7 +44,7 @@ namespace Telemetry.Test.UnitTests {
 
 			Assert.AreEqual( 2, reports.Count );
 
-			//localStorage.DeleteAllCurrentReports();
+			localStorage.DeleteAllCurrentReports();
 
 		}
 
@@ -77,20 +73,6 @@ namespace Telemetry.Test.UnitTests {
 			Assert.AreEqual( report.ErrorCode, (Int32)ErrorCode.GENERIC_CRITICAL_ERROR );
 
 			localStorage.DeleteAllCurrentReports();
-
-		}
-
-	}
-
-	public class GenericException : Exception {
-
-		public GenericException( ErrorCode errorCode, string message )
-			: base( message ) {
-				HResult = (int)errorCode;
-		}
-
-		public GenericException( string message, Exception innerException ) 
-			: base( message, innerException ) {
 
 		}
 

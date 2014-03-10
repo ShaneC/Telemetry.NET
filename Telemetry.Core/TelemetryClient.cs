@@ -93,7 +93,7 @@ namespace Telemetry.Core {
 		/// <param name="omitGlobals">Should Global Data Points be ommitted for saved reports? Defaults to false.</param>
 		public Task UploadAsync( TelemetryReport report, ReportStorageProvider provider, bool omitGlobals = false ) {
 			PreProcessReport( report, omitGlobals );
-			return provider.SaveToStorage( report );
+			return provider.SaveToStorageAsync( report );
 		}
 
 		/// <summary>
@@ -104,7 +104,7 @@ namespace Telemetry.Core {
 		/// <param name="omitGlobals">Should Global Data Points be ommitted for saved reports? Defaults to false.</param>
 		public Task UploadAsync( List<TelemetryReport> reports, ReportStorageProvider provider, bool omitGlobals = false ) {
 			PreProcessReport( reports, omitGlobals );
-			return provider.SaveToStorage( reports );
+			return provider.SaveToStorageAsync( reports );
 		}
 
 		/// <summary>

@@ -20,7 +20,7 @@ namespace Telemetry.StorageProviders {
 		public abstract Task<List<TelemetryReport>> ReadAllDataAsync();
 
 		public async Task UploadAllDataAsync( ReportStorageProvider reportStorageProvider ) {
-			await reportStorageProvider.SaveToStorage( await ReadAllDataAsync() );
+			await reportStorageProvider.SaveToStorageAsync( await ReadAllDataAsync() );
 		}
 
 	}

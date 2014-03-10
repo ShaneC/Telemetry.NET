@@ -18,9 +18,23 @@ namespace Telemetry.StorageProviders {
 
 		private AzureTableStorageSettings StorageSettings;
 
-		private CloudStorageAccount StorageAccount;
-		private CloudTableClient TableClient;
-		private CloudTable StorageTable;
+		public CloudStorageAccount AzureStorageAccount {
+			get { return _storageAccount; }
+			private set { _storageAccount = value; }
+		}
+		private CloudStorageAccount _storageAccount;
+
+		public CloudTableClient AzureTableClient {
+			get { return _tableClient; }
+			private set { _tableClient = value; }
+		}
+		private CloudTableClient _tableClient;
+
+		public CloudTable StorageTable {
+			get { return _storageTable; }
+			private set { _storageTable = value; }
+		}
+		private CloudTable _storageTable;
 
 		private Dictionary<string, string> AzureColumnMap = new Dictionary<string, string>();
 		private string UnmappedColumn;
@@ -42,9 +56,9 @@ namespace Telemetry.StorageProviders {
 			LoadSchemaMapping( StorageSettings.SchemaDefinition );
 
 			try {
-				StorageAccount = CloudStorageAccount.Parse( StorageSettings.ConnectionString );
-				TableClient = StorageAccount.CreateCloudTableClient();
-				StorageTable = TableClient.GetTableReference( StorageSettings.TableName );
+				AzureStorageAccount = CloudStorageAccount.Parse( StorageSettings.ConnectionString );
+				AzureTableClient = AzureStorageAccount.CreateCloudTableClient();
+				StorageTable = AzureTableClient.GetTableReference( StorageSettings.TableName );
 			} catch( Exception e ) {
 				throw new TelemetryReportingException( "Unable to connect to the Azure Storage Table (" + e.Message + "). See InnerException for additional details.", e );
 			}
@@ -92,12 +106,34 @@ namespace Telemetry.StorageProviders {
 
 		}
 
-		public override Task SaveToStorage( TelemetryReport report ) {
-			return Task.Run( () => { } );
+		public override Task SaveToStorageAsync( TelemetryReport report ) {
+			return StorageTable.ExecuteAsync( BuildInsertOperation( report ) );
 		}
 
-		public override Task SaveToStorage( List<TelemetryReport> reports ) {
-			return Task.Run( () => { } );
+		public override Task SaveToStorageAsync( List<TelemetryReport> reports ) {
+			TableBatchOperation batch = new TableBatchOperation();
+			foreach( var report in reports )
+				batch.Add( BuildInsertOperation( report ) );
+			return StorageTable.ExecuteBatchAsync( batch );
+		}
+
+		private TableOperation BuildInsertOperation( TelemetryReport report ) {
+
+			DynamicTableEntity entity = new DynamicTableEntity( StorageSettings.PartitionKey, Guid.NewGuid().ToString() );
+
+			Dictionary<string, object> unmapped = new Dictionary<string, object>();
+
+			foreach( var dataPoint in report.GetDataPoints() ) {
+				if( !AzureColumnMap.ContainsKey( dataPoint.Key ) )
+					unmapped.Add( dataPoint.Key, dataPoint.Value );
+				else
+					entity.Properties.Add( AzureColumnMap[dataPoint.Key], EntityProperty.GeneratePropertyForString( dataPoint.Value.ToString() ) );
+			}
+
+			entity.Properties.Add( UnmappedColumn, EntityProperty.GeneratePropertyForString( Serializer.SerializeToText( unmapped ) ) );
+
+			return TableOperation.Insert( entity );
+
 		}
 
 		public static XDocument GetDefaultSchema() {
@@ -121,6 +157,10 @@ namespace Telemetry.StorageProviders {
 		/// Name of the Azure Table which will store uploaded reports.
 		/// </summary>
 		public string TableName { get; set; }
+		/// <summary>
+		/// Parition Key for use with the target Azure Table.
+		/// </summary>
+		public string PartitionKey { get; set; }
 		/// <summary>
 		/// Xml Document detailing the column-to-data-point map by which data points are populated.
 		/// </summary>

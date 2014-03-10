@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<AzureTable xmlns="https://raw.github.com/ShaneC/Telemetry.NET/master/Resources/AzureTableSchema.xsd">
+<!--<AzureTable xmlns="https://raw.github.com/ShaneC/Telemetry.NET/master/Resources/AzureTableSchema.xsd">-->
+<AzureTable>
 	<Column>
 		<AzureColumnName>_ActivityTime</AzureColumnName>
 		<DataPoint>ActivityTime</DataPoint>	
@@ -15,6 +16,10 @@
 	<Column>
 		<AzureColumnName>Exception</AzureColumnName>
 		<DataPoint>Exception</DataPoint>
+	</Column>
+	<Column>
+		<AzureColumnName>ExceptionName</AzureColumnName>
+		<DataPoint>ExceptionName</DataPoint>
 	</Column>
 	<Column ContainsUnmappedDataPoints="true">
 		<AzureColumnName>Data</AzureColumnName>

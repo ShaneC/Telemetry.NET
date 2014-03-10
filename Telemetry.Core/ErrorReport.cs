@@ -10,6 +10,7 @@ namespace Telemetry.Core {
 			set {
 				_exception = value;
 				LogDataPoint( "Exception", value.ToString() );
+				LogDataPoint( "ExceptionName", value.GetType().FullName );
 				LogDataPoint( "HResult", value.HResult );
 				// Log all InnerExceptions
 				int i = 0;

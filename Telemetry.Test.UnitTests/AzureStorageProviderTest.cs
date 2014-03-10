@@ -6,12 +6,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Telemetry.Core;
 using Telemetry.StorageProviders;
 
 namespace Telemetry.Test.UnitTests {
 
 	[TestClass]
 	public class AzureStorageProviderTest {
+
+		private static AzureTableStorageProvider AzureStorageEmulator = new AzureTableStorageProvider( new AzureTableStorageSettings {
+			ConnectionString = "UseDevelopmentStorage=true",
+			TableName = "reports",
+			PartitionKey = "error",
+			SchemaDefinition = AzureTableStorageProvider.GetDefaultSchema()
+		} );
 
 		[TestMethod]
 		public void Schema_Load() {
@@ -33,12 +41,35 @@ namespace Telemetry.Test.UnitTests {
 			XDocument schema = AzureTableStorageProvider.GetDefaultSchema();
 
 			AzureTableStorageProvider storage = new AzureTableStorageProvider( new AzureTableStorageSettings {
-				ConnectionString = "UseDevelopmentStorage=true;DevelopmentStorageProxyUri=http://myProxyUri",
+				ConnectionString = "UseDevelopmentStorage=true",
 				TableName = "reports",
+				PartitionKey = "test",
 				SchemaDefinition = schema
 			} );
 
-			Debugger.Break();
+		}
+
+		[TestMethod]
+		public void AzureStorageProvider_Save() {
+
+			XDocument schema = AzureTableStorageProvider.GetDefaultSchema();
+
+			AzureTableStorageProvider storage = new AzureTableStorageProvider( new AzureTableStorageSettings {
+				ConnectionString = "UseDevelopmentStorage=true",
+				TableName = "reports",
+				PartitionKey = "error",
+				SchemaDefinition = schema
+			} );
+
+			TelemetryClient client = new TelemetryClient();
+
+			try {
+				throw new GenericException( ErrorCode.GENERIC_CRITICAL_ERROR, "Test Exception Message" );
+			} catch( Exception e ) {
+				client.AddActiveReport( new ErrorReport( e ) );
+			}
+
+			client.UploadActiveReportsAsync( AzureStorageEmulator ).Wait();
 
 		}
 

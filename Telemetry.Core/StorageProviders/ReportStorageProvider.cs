@@ -10,13 +10,13 @@ namespace Telemetry.StorageProviders {
 		/// Uploads a set of reports to the report storage provider.
 		/// </summary>
 		/// <param name="reports">List containing reports for upload</param>
-		public abstract Task SaveToStorage( List<TelemetryReport> reports );
+		public abstract Task SaveToStorageAsync( List<TelemetryReport> reports );
 
 		/// <summary>
 		/// Uploads a report to the report storage provider.
 		/// </summary>
 		/// <param name="report"></param>
-		public abstract Task SaveToStorage( TelemetryReport report );
+		public abstract Task SaveToStorageAsync( TelemetryReport report );
 
 	}
 

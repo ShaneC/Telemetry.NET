@@ -40,22 +40,22 @@ namespace Telemetry.FileSystem.StorageProviders {
 				EventLog.CreateEventSource( eventSource, eventLog );
 		}
 
-		public override Task SaveToStorage( List<TelemetryReport> reports ) {
-			return SaveToStorage( reports, EventLogEntryType.Information, 0 );
+		public override Task SaveToStorageAsync( List<TelemetryReport> reports ) {
+			return SaveToStorageAsync( reports, EventLogEntryType.Information, 0 );
 		}
 
-		public Task SaveToStorage( List<TelemetryReport> reports, EventLogEntryType eventType, int eventID ) {
+		public Task SaveToStorageAsync( List<TelemetryReport> reports, EventLogEntryType eventType, int eventID ) {
 			return Task.Run( () => {
 				foreach( TelemetryReport report in reports )
-					SaveToStorage( report, eventType, eventID ).RunSynchronously();
+					SaveToStorageAsync( report, eventType, eventID ).RunSynchronously();
 			} );
 		}
 
-		public override Task SaveToStorage( TelemetryReport report ) {
-			return SaveToStorage( report, EventLogEntryType.Information, 0 );
+		public override Task SaveToStorageAsync( TelemetryReport report ) {
+			return SaveToStorageAsync( report, EventLogEntryType.Information, 0 );
 		}
 
-		public Task SaveToStorage( TelemetryReport report, EventLogEntryType eventType, int eventID ) {
+		public Task SaveToStorageAsync( TelemetryReport report, EventLogEntryType eventType, int eventID ) {
 			return Task.Run( () => {
 				EventLog.WriteEntry( EventSource, _serializer.SerializeToText( report ), eventType, eventID );
 			} );
