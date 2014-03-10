@@ -1,7 +1,6 @@
-﻿using System;
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-using Telemetry.StorageProviders;
+﻿using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using System.Xml.Linq;
+using Telemetry.StorageProviders;
 
 namespace Telemetry.Test.WP {
 

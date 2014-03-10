@@ -9,7 +9,6 @@
 //------------------------------------------------------------------------------
 
 namespace Telemetry.Test.WP.Resources {
-	using System;
 
 
 	/// <summary>
