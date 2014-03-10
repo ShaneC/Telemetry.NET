@@ -1,6 +1,7 @@
 ﻿using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -22,9 +23,7 @@ namespace Telemetry.StorageProviders {
 		private CloudTable StorageTable;
 
 		private Dictionary<string, string> AzureColumnMap = new Dictionary<string, string>();
-		//private string UnmappedColumn;
-
-		private Dictionary<string, object> UnmappedDataPoints = new Dictionary<string, object>();
+		private string UnmappedColumn;
 
 		public ISerializer Serializer {
 			get { return _serializer; }
@@ -40,6 +39,8 @@ namespace Telemetry.StorageProviders {
 			
 			StorageSettings = settings;
 
+			LoadSchemaMapping( StorageSettings.SchemaDefinition );
+
 			try {
 				StorageAccount = CloudStorageAccount.Parse( StorageSettings.ConnectionString );
 				TableClient = StorageAccount.CreateCloudTableClient();
@@ -47,6 +48,47 @@ namespace Telemetry.StorageProviders {
 			} catch( Exception e ) {
 				throw new TelemetryReportingException( "Unable to connect to the Azure Storage Table (" + e.Message + "). See InnerException for additional details.", e );
 			}
+
+		}
+
+		private void LoadSchemaMapping( XDocument schema ) {
+
+			if( schema == null )
+				throw new TelemetryReportingException( "Unable to parse Azure Storage Schema Definition. No SchemaDefinition property specified." );
+
+			bool foundUnmapped = false;
+
+			var columns = schema.Descendants( "Column" );
+
+			if( columns.Count() < 1 )
+				throw new TelemetryReportingException( "Unable to parse Azure Storage Schema Definition. Schema contains no <Column> nodes." );
+
+			foreach( var column in columns ){
+
+				if( column.Element( "AzureColumnName" ) == null )
+					throw new TelemetryReportingException( "Unable to parse Azure Storage Schema Definition. One or more of the Columns specified does not contain an AzureColumnName." );
+
+				string azureColumnName = column.Element( "AzureColumnName" ).Value;
+
+				if( column.Attribute( "ContainsUnmappedDataPoints" ) != null && column.Attribute( "ContainsUnmappedDataPoints" ).Value.ToLower() == "true" ) {
+					// Found column which is intended to hold unmapped data points
+					if( foundUnmapped )
+						throw new TelemetryReportingException( "Unable to parse Azure Storage Schema Definition. Two or more columns have been specified for use in holding unmapped data points (ContainsUnmappedDataPoints flag as true)." );
+					if( column.Element( "DataPoint" ) != null )
+						throw new TelemetryReportingException( "Unable to parse Azure Storage Schema Definition. The Column specified for " + azureColumnName + " contains both a DataPoint node and an ContainsUnmappedDataPoints flag equaling true. Only one may be present." );
+					UnmappedColumn = azureColumnName;
+					foundUnmapped = true;
+				} else {
+					// If not for use with unmapped data points, this must contain a single data point
+					if( column.Element( "DataPoint" ) == null )
+						throw new TelemetryReportingException( "Unable to parse Azure Storage Schema Definition. The Column specified for " + azureColumnName + " contains no DataPoint node." );
+					AzureColumnMap.Add( column.Element( "DataPoint" ).Value, azureColumnName );
+				}
+
+			}
+
+			if( !foundUnmapped )
+				throw new TelemetryReportingException( "Unable to parse Azure Storage Schema Definition. No column was specified for holding unmapped data points (ContainsUnmappedDataPoints flag as true)." );
 
 		}
 

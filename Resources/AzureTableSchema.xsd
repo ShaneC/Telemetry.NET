@@ -1,0 +1,17 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="AzureTable">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Column" maxOccurs="unbounded" minOccurs="1">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element type="xs:string" name="AzureColumnName" minOccurs="1" maxOccurs="1"/>
+							<xs:element type="xs:string" name="DataPoint" minOccurs="0" maxOccurs="1"/>
+						</xs:sequence>
+						<xs:attribute type="xs:string" name="ContainsUnmappedDataPoints" use="optional"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -16,8 +16,7 @@
 		<AzureColumnName>Exception</AzureColumnName>
 		<DataPoint>Exception</DataPoint>
 	</Column>
-	<Column>
+	<Column ContainsUnmappedDataPoints="true">
 		<AzureColumnName>Data</AzureColumnName>
-		<DataPoint unmapped="true" />
 	</Column>
 </AzureTable>

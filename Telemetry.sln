@@ -15,6 +15,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telemetry.Net45", "Telemetr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telemetry.CommonProviders", "Telemetry.CommonProviders\Telemetry.CommonProviders.csproj", "{0D24C7EC-6B4B-4178-AB72-E761F129C82F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".metadata", ".metadata", "{C7C899F4-7DEA-48B9-9DEB-B1CD4494EC8C}"
+	ProjectSection(SolutionItems) = preProject
+		Resources\AzureTableSchema.xsd = Resources\AzureTableSchema.xsd
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
