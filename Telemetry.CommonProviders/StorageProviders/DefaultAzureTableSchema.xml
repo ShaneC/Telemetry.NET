@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<AzureTable>
+<AzureTable xmlns="https://raw.github.com/ShaneC/Telemetry.NET/master/Resources/AzureTableSchema.xsd">
 	<Column>
 		<AzureColumnName>_ActivityTime</AzureColumnName>
 		<DataPoint>ActivityTime</DataPoint>	

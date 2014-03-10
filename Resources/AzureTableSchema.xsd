@@ -1,14 +1,15 @@
-<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="https://raw.github.com/ShaneC/Telemetry.NET/master/Resources/AzureTableSchema.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 	<xs:element name="AzureTable">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="Column" maxOccurs="unbounded" minOccurs="1">
+				<xs:element maxOccurs="unbounded" name="Column">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element type="xs:string" name="AzureColumnName" minOccurs="1" maxOccurs="1"/>
-							<xs:element type="xs:string" name="DataPoint" minOccurs="0" maxOccurs="1"/>
+							<xs:element name="AzureColumnName" type="xs:string" />
+							<xs:element minOccurs="0" name="DataPoint" type="xs:string" />
 						</xs:sequence>
-						<xs:attribute type="xs:string" name="ContainsUnmappedDataPoints" use="optional"/>
+						<xs:attribute name="ContainsUnmappedDataPoints" type="xs:boolean" use="optional" />
 					</xs:complexType>
 				</xs:element>
 			</xs:sequence>
