@@ -137,11 +137,7 @@ namespace Telemetry.StorageProviders {
 
 		public static XDocument GetDefaultSchema() {
 
-			using( Stream stream = new MemoryStream( Encoding.UTF8.GetBytes( AzureStorageResources.DefaultAzureTableSchema ) ) ) {
-				using( StreamReader reader = new StreamReader( stream ) ) {
-					return XDocument.Parse( reader.ReadToEnd() );
-				}
-			}
+			return XDocument.Parse( "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\r\n<AzureTable>\r\n\t<Column>\r\n\t\t<AzureColumnName>_ActivityTime</AzureColumnName>\r\n\t\t<DataPoint>ActivityTime</DataPoint>\t\r\n\t</Column>\r\n\t<Column>\r\n\t\t<AzureColumnName>_ErrorCode</AzureColumnName>\r\n\t\t<DataPoint>ErrorCode</DataPoint>\r\n\t</Column>\r\n\t<Column>\r\n\t\t<AzureColumnName>_StatusCode</AzureColumnName>\r\n\t\t<DataPoint>StatusCode</DataPoint>\r\n\t</Column>\r\n\t<Column>\r\n\t\t<AzureColumnName>Exception</AzureColumnName>\r\n\t\t<DataPoint>Exception</DataPoint>\r\n\t</Column>\r\n\t<Column>\r\n\t\t<AzureColumnName>ExceptionName</AzureColumnName>\r\n\t\t<DataPoint>ExceptionName</DataPoint>\r\n\t</Column>\r\n\t<Column ContainsUnmappedDataPoints=\"true\">\r\n\t\t<AzureColumnName>Data</AzureColumnName>\r\n\t</Column>\r\n</AzureTable>" );
 
 		}
 

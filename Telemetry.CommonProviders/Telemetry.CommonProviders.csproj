@@ -52,28 +52,16 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StorageProviders\AzureStorageResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AzureStorageResources.resx</DependentUpon>
-    </Compile>
     <Compile Include="StorageProviders\AzureTableStorageProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="StorageProviders\DefaultAzureTableSchema.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Telemetry.Core\Telemetry.Core.csproj">
       <Project>{922dd146-652b-4b69-9f41-f846d5af0a9b}</Project>
       <Name>Telemetry.Core</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="StorageProviders\AzureStorageResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>AzureStorageResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

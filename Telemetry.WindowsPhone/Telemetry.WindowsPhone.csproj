@@ -83,12 +83,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\Telemetry.CommonProviders\StorageProviders\AzureStorageResources.Designer.cs">
-      <Link>StorageProviders\AzureStorageResources.Designer.cs</Link>
-      <DependentUpon>AzureStorageResources.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="..\Telemetry.CommonProviders\StorageProviders\AzureTableStorageProvider.cs">
       <Link>StorageProviders\AzureTableStorageProvider.cs</Link>
     </Compile>
@@ -142,13 +136,6 @@
     <Reference Include="System.Spatial.Portable">
       <HintPath>..\packages\System.Spatial.5.6.0\lib\portable-net40+sl5+wp8+win8\System.Spatial.Portable.dll</HintPath>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="..\Telemetry.CommonProviders\StorageProviders\AzureStorageResources.resx">
-      <Link>StorageProviders\AzureStorageResources.resx</Link>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>AzureStorageResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
