@@ -1,4 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Auth;
 using Microsoft.WindowsAzure.Storage.Table;
 using System;
 using System.Linq;
@@ -136,6 +138,40 @@ namespace Telemetry.Test.UnitTests {
 			//}, null );
 
 			//return tcs.Task;
+
+		}
+
+		[TestMethod]
+		public async Task GenerateAzureSAS() {
+
+			CloudStorageAccount sa = CloudStorageAccount.Parse( "DefaultEndpointsProtocol=https;AccountName=" + TestConfig.AzureTestAccountName + ";AccountKey=" + TestConfig.AzureTestAccountKey + ";" );
+			CloudTableClient client = sa.CreateCloudTableClient();
+
+			CloudTable table = client.GetTableReference( TestConfig.AzureTestTableName );
+			await table.CreateIfNotExistsAsync();
+
+			SharedAccessTablePolicy policy = new SharedAccessTablePolicy() {
+				Permissions = SharedAccessTablePermissions.Add | SharedAccessTablePermissions.Delete | SharedAccessTablePermissions.Query | SharedAccessTablePermissions.Update,
+				SharedAccessExpiryTime = DateTime.UtcNow.AddYears( 2 )
+			};
+
+			System.Diagnostics.Debug.WriteLine( table.GetSharedAccessSignature( policy, null, null, null, null, null ) );
+			
+		}
+
+		[TestMethod]
+		public async Task RawSASAzureExecution() {
+
+			StorageCredentials sasCredentials = new StorageCredentials( TestConfig.AzureTestTableSAS );
+
+			CloudTableClient ctc = new CloudTableClient( new Uri( TestConfig.AzureTestAccountUri ), sasCredentials );
+
+			CloudTable table = ctc.GetTableReference( TestConfig.AzureTestTableName );
+
+			TableEntity entity = new TableEntity( "reports", Guid.NewGuid().ToString( "N" ) );
+
+			TableOperation insert = TableOperation.Insert( entity );
+			await table.ExecuteAsync( insert );
 
 		}
 
