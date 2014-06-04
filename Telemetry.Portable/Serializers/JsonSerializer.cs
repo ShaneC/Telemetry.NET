@@ -9,6 +9,17 @@ namespace Telemetry.Serializers {
 			return SerializeToText( report.GetDataPoints() );
 		}
 
+		public string SerializeToText( List<TelemetryReport> reports ) {
+			List<Dictionary<string, object>> listOfDataPoints = new List<Dictionary<string, object>>();
+			foreach( var report in reports )
+				listOfDataPoints.Add( report.GetDataPoints() );
+			return SerializeToText( listOfDataPoints );
+		}
+
+		public string SerializeToText( List<Dictionary<string, object>> parameters ) {
+			return JsonConvert.SerializeObject( parameters );
+		}
+
 		public string SerializeToText( Dictionary<string, object> parameters ) {
 			return JsonConvert.SerializeObject( parameters );
 		}
