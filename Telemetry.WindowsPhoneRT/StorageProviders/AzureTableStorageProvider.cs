@@ -144,7 +144,14 @@ namespace Telemetry.StorageProviders {
 
 		private TableOperation BuildInsertOperation( TelemetryReport report ) {
 
-			DynamicTableEntity entity = new DynamicTableEntity( StorageSettings.PartitionKey, Guid.NewGuid().ToString() );
+			string pkVar = report.GetDataPointValue( "_telemAzurePartitionKey" ) as string;
+
+			if( pkVar != null )
+				report.DeleteDataPoint( "_telemAzurePartitionKey" );
+
+			string partitionKey = ( pkVar != null ) ? pkVar : StorageSettings.DefaultPartitionKey;
+
+			DynamicTableEntity entity = new DynamicTableEntity( partitionKey, Guid.NewGuid().ToString() );
 
 			Dictionary<string, object> unmapped = new Dictionary<string, object>();
 
@@ -179,7 +186,7 @@ namespace Telemetry.StorageProviders {
 		/// <summary>
 		/// Parition Key for use with the target Azure Table.
 		/// </summary>
-		public string PartitionKey { get; set; }
+		public string DefaultPartitionKey { get; set; }
 		/// <summary>
 		/// Xml Document detailing the column-to-data-point map by which data points are populated.
 		/// </summary>
@@ -202,7 +209,7 @@ namespace Telemetry.StorageProviders {
 		/// <summary>
 		/// Parition Key for use with the target Azure Table.
 		/// </summary>
-		public string PartitionKey { get; set; }
+		public string DefaultPartitionKey { get; set; }
 		/// <summary>
 		/// Xml Document detailing the column-to-data-point map by which data points are populated.
 		/// </summary>
@@ -217,7 +224,7 @@ namespace Telemetry.StorageProviders {
 		/// <summary>
 		/// Parition Key for use with the target Azure Table.
 		/// </summary>
-		string PartitionKey { get; set; }
+		string DefaultPartitionKey { get; set; }
 		/// <summary>
 		/// Xml Document detailing the column-to-data-point map by which data points are populated.
 		/// </summary>

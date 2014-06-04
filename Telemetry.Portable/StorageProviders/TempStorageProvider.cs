@@ -12,6 +12,10 @@ namespace Telemetry.StorageProviders {
 			Serializer = serializer;
 		}
 
+		public TempStorageProvider() {
+			Serializer = new JsonSerializer();
+		}
+
 		public abstract Task WriteDataAsync( List<TelemetryReport> reports );
 
 		public abstract Task WriteDataAsync( TelemetryReport report );

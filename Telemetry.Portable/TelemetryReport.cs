@@ -4,24 +4,30 @@ using System.Collections.Generic;
 namespace Telemetry {
 
 	public class TelemetryReport {
-
-		private DateTime _activityTime = DateTime.UtcNow;
+		
 		public DateTime ActivityTime {
 			get { return _activityTime; }
 			set { _activityTime = value; }
 		}
-
-		protected int _statusCode = 0;
+		private DateTime _activityTime = DateTime.UtcNow;
+		
 		public int StatusCode {
 			get { return _statusCode; }
 			set { _statusCode = value; }
 		}
-
-		protected int _errorCode = 0;
+		protected int _statusCode = 0;
+		
 		public int ErrorCode {
 			get { return _errorCode; }
 			set { _errorCode = value; }
 		}
+		protected int _errorCode = 0;
+
+		public bool BypassSampling { 
+			get { return _bypassSampling; }
+			set { _bypassSampling = value; }
+		}
+		protected bool _bypassSampling = false;
 
 		protected Dictionary<string, object> _parameters = new Dictionary<string, object>();
 
@@ -44,6 +50,15 @@ namespace Telemetry {
 				_parameters.Add( dataPoint, value );
 			else
 				_parameters[dataPoint] = value;
+		}
+
+		/// <summary>
+		/// Deletes any data point saved with this report which matches the data point key.
+		/// </summary>
+		/// <param name="dataPoint">Key of the target data point.</param>
+		public void DeleteDataPoint( string dataPoint ) {
+			if( _parameters.ContainsKey( dataPoint ) )
+				_parameters.Remove( dataPoint );
 		}
 
 		public void SetLogTime() {
