@@ -12,23 +12,25 @@ namespace Telemetry {
 				LogDataPoint( "Exception", value.ToString() );
 				LogDataPoint( "ExceptionName", value.GetType().FullName );
 				LogDataPoint( "HResult", value.HResult );
+				LogExceptionDataPoints( value, "Exception_" );
 				// Log all InnerExceptions
 				int i = 0;
 				var inner = value.InnerException;
 				while( inner != null ) {
 					LogDataPoint( "InnerException_" + i, inner.ToString() );
+					LogExceptionDataPoints( value, "InnerException_" + i );
 					inner = inner.InnerException;
 					i++;
 				}
 			}
 		}
-		private Exception _exception = null;
+		protected Exception _exception = null;
 
 		public Dictionary<object, object> DebugData {
 			get { return _debugData; }
 			set { _debugData = value; }
 		}
-		private Dictionary<object, object> _debugData = new Dictionary<object, object>();
+		protected Dictionary<object, object> _debugData = new Dictionary<object, object>();
 
 		public ErrorReport( Exception e ) {
 			Exception = e;
@@ -43,6 +45,18 @@ namespace Telemetry {
 		public ErrorReport( Exception e, int errorCode ) {
 			Exception = e;
 			ErrorCode = errorCode;
+		}
+
+		protected void LogExceptionDataPoints( Exception e, string keyPrefix ){
+
+			if( e.Data.Count < 1 )
+				return;
+
+			try {
+				foreach( KeyValuePair<object, object> dp in e.Data )
+					LogDataPoint( keyPrefix + "DataArr_" + dp.Key.ToString(), dp.Value.ToString() );
+			} catch( Exception ) { }
+
 		}
 
 	}
