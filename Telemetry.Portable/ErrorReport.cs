@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Telemetry {
 	
-	public class ErrorReport : TelemetryReport {
+	public partial class ErrorReport : TelemetryReport {
 
 		public Exception Exception {
 			get { return _exception; }

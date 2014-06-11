@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Telemetry.StorageProviders;
 
@@ -109,6 +110,23 @@ namespace Telemetry {
 		public Task UploadAsync( List<TelemetryReport> reports, ReportStorageProvider provider, bool omitGlobals = false ) {
 			PreProcessReport( reports, omitGlobals );
 			return provider.SaveToStorageAsync( reports );
+		}
+
+		/// <summary>
+		/// Immediately attempts to upload reports from Temp Storage to the target <see cref="ReportStorageProvider" />.
+		/// In case of failure, pending reports will be written back to temp storage.
+		/// </summary>
+		/// <param name="report">Report to be uploaded</param>
+		/// <param name="provider">Non-Temporary Report Storage Provider</param>
+		/// <param name="omitGlobals">Should Global Data Points be ommitted for saved reports? Defaults to false.</param>
+		public async Task<Task> UploadAsync( TempStorageProvider tempProvider, ReportStorageProvider provider, bool omitGlobals = false ) {
+			var reports = await tempProvider.ReadAllDataAsync();
+			PreProcessReport( reports, omitGlobals );
+			try {
+				return provider.SaveToStorageAsync( reports );
+			} catch( Exception ) {
+				return tempProvider.WriteDataAsync( reports );
+			}
 		}
 
 		/// <summary>
