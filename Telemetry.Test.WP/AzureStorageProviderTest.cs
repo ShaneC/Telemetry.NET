@@ -12,7 +12,7 @@ using Telemetry.Test.TestLibrary;
 
 namespace Telemetry.Test.UnitTests {
 
-	[TestClass]
+	//[TestClass]
 	public class AzureStorageProviderTest {
 
 		private static string PartitionKey = "test";

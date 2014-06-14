@@ -14,7 +14,7 @@ namespace Telemetry.Serializers {
 
 		Dictionary<string, object> DeserializeDataPoints( string input );
 
-		TelemetryReport DeserializeReport( string input );
+		List<TelemetryReport> DeserializeReports( string input );
 
 	}
 

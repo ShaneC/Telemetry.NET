@@ -51,7 +51,7 @@ namespace Telemetry.Test.UnitTests.TestStorageProviders {
 	//				string[] lines = File.ReadAllLines( Path.Combine( ReportFileDirectory, fileName ) );
 
 	//				foreach( string line in lines ) {
-	//					reports.Add( Serializer.DeserializeReport( line ) );
+	//					reports.Add( Serializer.DeserializeReports( line ) );
 	//				}
 
 	//			}

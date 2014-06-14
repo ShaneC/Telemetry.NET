@@ -105,7 +105,7 @@ namespace Telemetry.Test.UnitTests {
 			JsonSerializer serializer = new JsonSerializer();
 			string result = serializer.SerializeToText( tempReport );
 
-			TelemetryReport report = serializer.DeserializeReport( result );
+			TelemetryReport report = serializer.DeserializeReports( result )[0];
 
 			Assert.AreEqual( DateTime.UtcNow.Year, report.ActivityTime.Year );
 			Assert.AreEqual( 5, report.StatusCode );

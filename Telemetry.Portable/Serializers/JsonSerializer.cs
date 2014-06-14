@@ -6,14 +6,14 @@ namespace Telemetry.Serializers {
 	public class JsonSerializer : ISerializer {
 
 		public string SerializeToText( TelemetryReport report ) {
-			return SerializeToText( report.GetDataPoints() );
+			return SerializeToText( new List<TelemetryReport>() { report } );
 		}
 
 		public string SerializeToText( List<TelemetryReport> reports ) {
 			List<Dictionary<string, object>> listOfDataPoints = new List<Dictionary<string, object>>();
 			foreach( var report in reports )
 				listOfDataPoints.Add( report.GetDataPoints() );
-			return SerializeToText( listOfDataPoints );
+			return JsonConvert.SerializeObject( listOfDataPoints );
 		}
 
 		public string SerializeToText( List<Dictionary<string, object>> parameters ) {
@@ -24,8 +24,12 @@ namespace Telemetry.Serializers {
 			return JsonConvert.SerializeObject( parameters );
 		}
 
-		public TelemetryReport DeserializeReport( string input ) {
-			return TelemetryReport.CreateReportFromDataPoints( DeserializeDataPoints( input ) );
+		public List<TelemetryReport> DeserializeReports( string input ) {
+			var listOfDataPoints = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>( input );
+			var reports = new List<TelemetryReport>();
+			foreach( var dp in listOfDataPoints )
+				reports.Add( TelemetryReport.CreateReportFromDataPoints( dp ) );
+			return reports;
 		}
 
 		public Dictionary<string, object> DeserializeDataPoints( string input ) {

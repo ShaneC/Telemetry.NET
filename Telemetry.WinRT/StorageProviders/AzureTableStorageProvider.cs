@@ -51,7 +51,7 @@ namespace Telemetry.StorageProviders {
 		}
 
 		private void LoadSettings( AzureStorageAccountSettings settings ) {
-			
+
 			StorageSettings = settings;
 
 			LoadSchemaMapping( StorageSettings.SchemaDefinition );
@@ -93,7 +93,7 @@ namespace Telemetry.StorageProviders {
 			if( columns.Count() < 1 )
 				throw new TelemetryReportingException( "Unable to parse Azure Storage Schema Definition. Schema contains no <Column> nodes." );
 
-			foreach( var column in columns ){
+			foreach( var column in columns ) {
 
 				if( column.Element( "AzureColumnName" ) == null )
 					throw new TelemetryReportingException( "Unable to parse Azure Storage Schema Definition. One or more of the Columns specified does not contain an AzureColumnName." );
@@ -123,33 +123,53 @@ namespace Telemetry.StorageProviders {
 		}
 
 		public override Task SaveToStorageAsync( TelemetryReport report ) {
+			// Determine PartitionKey
+			var pkVar = report.GetDataPointValue( "_telemAzurePartitionKey" ) as string;
+			if( pkVar != null )
+				report.DeleteDataPoint( "_telemAzurePartitionKey" );
+			var pk = ( ( pkVar != null ) ? pkVar : StorageSettings.DefaultPartitionKey );
 #if WINDOWS_APP
-			return StorageTable.ExecuteAsync( BuildInsertOperation( report ) ).AsTask();
+			return StorageTable.ExecuteAsync( BuildInsertOperation( report, pk ) ).AsTask();
 #else
-			return StorageTable.ExecuteAsync( BuildInsertOperation( report ) );
+			return StorageTable.ExecuteAsync( BuildInsertOperation( report, pk ) );
 #endif
 		}
 
 		public override Task SaveToStorageAsync( List<TelemetryReport> reports ) {
-			TableBatchOperation batch = new TableBatchOperation();
-			foreach( var report in reports )
-				batch.Add( BuildInsertOperation( report ) );
-#if WINDOWS_APP
-			return StorageTable.ExecuteBatchAsync( batch ).AsTask();
-#else
-			return StorageTable.ExecuteBatchAsync( batch );
-#endif
+
+			if( reports.Count < 1 )
+				return null;
+
+			Dictionary<string, TableBatchOperation> partitions = new Dictionary<string, TableBatchOperation>();
+			List<Task> tasks = new List<Task>();
+
+			// Create akk batches
+			foreach( var report in reports ) {
+
+				// Determine PartitionKey
+				var pkVar = report.GetDataPointValue( "_telemAzurePartitionKey" ) as string;
+				if( pkVar != null )
+					report.DeleteDataPoint( "_telemAzurePartitionKey" );
+				var pk = ( ( pkVar != null ) ? pkVar : StorageSettings.DefaultPartitionKey );
+
+				if( !partitions.ContainsKey( pk ) )
+					partitions.Add( pk, new TableBatchOperation() );
+
+				partitions[pk].Add( BuildInsertOperation( report, pk ) );
+
+			}
+
+
+			foreach( var partition in partitions )
+				tasks.Add( Task.Run( async () => {
+					await StorageTable.ExecuteBatchAsync( partition.Value );
+				} ) );
+
+			return Task.WhenAll( tasks );
 
 		}
 
-		private TableOperation BuildInsertOperation( TelemetryReport report ) {
-
-			string pkVar = report.GetDataPointValue( "_telemAzurePartitionKey" ) as string;
-
-			if( pkVar != null )
-				report.DeleteDataPoint( "_telemAzurePartitionKey" );
-
-			string partitionKey = ( pkVar != null ) ? pkVar : StorageSettings.DefaultPartitionKey;
+		private TableOperation BuildInsertOperation( TelemetryReport report, string partitionKey ) {
 
 			DynamicTableEntity entity = new DynamicTableEntity( partitionKey, Guid.NewGuid().ToString() );
 
