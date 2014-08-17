@@ -78,7 +78,7 @@ namespace Telemetry {
 		/// <param name="tempProvider">Temporary Report Storage Provider</param>
 		/// <param name="omitGlobals">Should Global Data Points be ommitted for saved reports? Defaults to false.</param>
 		public Task SaveToTempStorageAsync( List<TelemetryReport> reports, TempStorageProvider tempProvider, bool omitGlobals = false ) {
-			PreProcessReport( reports, omitGlobals );
+			PreProcessReport( reports, omitGlobals, false );
 			return tempProvider.WriteDataAsync( reports );
 		}
 
@@ -150,11 +150,11 @@ namespace Telemetry {
 				_globalDataPoints[dataPoint] = value;
 		}
 
-		protected void PreProcessReport( List<TelemetryReport> reports, bool omitGlobals ) {
+		protected void PreProcessReport( List<TelemetryReport> reports, bool omitGlobals, bool applySampling = true ) {
 			Random rand = new Random();
 			foreach( TelemetryReport report in reports ) {
 				// Apply sampling percentage
-				if( rand.Next( 1, 100 ) > SamplingPercentage )
+				if( applySampling && rand.Next( 1, 100 ) > SamplingPercentage )
 					reports.Remove( report );
 				else
 					PreProcessReport( report, omitGlobals );
