@@ -12,7 +12,7 @@ using Telemetry.Test.TestLibrary;
 
 namespace Telemetry.Test.UnitTests {
 
-	//[TestClass]
+	[TestClass]
 	public class AzureStorageProviderTest {
 
 		private static string PartitionKey = "test";
@@ -21,14 +21,6 @@ namespace Telemetry.Test.UnitTests {
 			ConnectionString = "UseDevelopmentStorage=true",
 			TableName = "reports",
 			DefaultPartitionKey = PartitionKey,
-			SchemaDefinition = AzureTableStorageProvider.GetDefaultSchema()
-		} );
-
-		private static AzureTableStorageProvider AzureTestStorage_SAS = new AzureTableStorageProvider( new AzureTableSettings {
-			StorageUri = new Uri( TestConfig.AzureTestAccountUri ),
-			TableName = TestConfig.AzureTestTableName,
-			SAS = TestConfig.AzureTestTableSAS,
-			DefaultPartitionKey = "reports",
 			SchemaDefinition = AzureTableStorageProvider.GetDefaultSchema()
 		} );
 
@@ -142,6 +134,14 @@ namespace Telemetry.Test.UnitTests {
 
 		//}
 
+		private static AzureTableStorageProvider AzureTestStorage_SAS = new AzureTableStorageProvider( new AzureTableSettings {
+			StorageUri = new Uri( TestConfig.AzureTestAccountUri ),
+			TableName = TestConfig.AzureTestTableName,
+			SAS = TestConfig.AzureTestTableSAS,
+			DefaultPartitionKey = "reports",
+			SchemaDefinition = AzureTableStorageProvider.GetDefaultSchema()
+		} );
+
 		[TestMethod]
 		public async Task GenerateAzureSAS() {
 
@@ -152,7 +152,8 @@ namespace Telemetry.Test.UnitTests {
 			await table.CreateIfNotExistsAsync();
 
 			SharedAccessTablePolicy policy = new SharedAccessTablePolicy() {
-				Permissions = SharedAccessTablePermissions.Add,
+				//Permissions = SharedAccessTablePermissions.Add,
+				Permissions = SharedAccessTablePermissions.Add | SharedAccessTablePermissions.Delete | SharedAccessTablePermissions.Query | SharedAccessTablePermissions.Update,
 				SharedAccessExpiryTime = DateTime.UtcNow.AddYears( 2 )
 			};
 

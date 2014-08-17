@@ -10,11 +10,11 @@ namespace Telemetry {
 		/// <summary>
 		/// Value 0 to 100. If lower than 100, only the specified percentage of reports handled by the client will be uploaded. Determine by dice throw.
 		/// </summary>
-		public double SamplingPercentage {
+		public int SamplingPercentage {
 			get { return _samplingPercentage; }
 			set { _samplingPercentage = value; }
 		}
-		protected double _samplingPercentage = 100;
+		protected int _samplingPercentage = 100;
 
 		/// <summary>
 		/// Unique ID representing this instance of the TelemetryClient. Helpful for pivoting multiple reports on a single call context.
@@ -151,8 +151,14 @@ namespace Telemetry {
 		}
 
 		protected void PreProcessReport( List<TelemetryReport> reports, bool omitGlobals ) {
-			foreach( TelemetryReport report in reports )
-				PreProcessReport( report, omitGlobals );
+			Random rand = new Random();
+			foreach( TelemetryReport report in reports ) {
+				// Apply sampling percentage
+				if( rand.Next( 1, 100 ) > SamplingPercentage )
+					reports.Remove( report );
+				else
+					PreProcessReport( report, omitGlobals );
+			}
 		}
 
 		protected void PreProcessReport( TelemetryReport report, bool omitGlobals ) {
