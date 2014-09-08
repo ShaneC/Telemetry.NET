@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Telemetry {
@@ -53,7 +54,7 @@ namespace Telemetry {
 				return;
 
 			try {
-				foreach( KeyValuePair<object, object> dp in e.Data )
+				foreach( DictionaryEntry dp in e.Data )
 					LogDataPoint( keyPrefix + "DataArr_" + dp.Key.ToString(), dp.Value.ToString() );
 			} catch( Exception ) { }
 

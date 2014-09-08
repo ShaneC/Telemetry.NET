@@ -27,8 +27,10 @@ namespace Telemetry.Serializers {
 		public List<TelemetryReport> DeserializeReports( string input ) {
 			var listOfDataPoints = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>( input );
 			var reports = new List<TelemetryReport>();
-			foreach( var dp in listOfDataPoints )
-				reports.Add( TelemetryReport.CreateReportFromDataPoints( dp ) );
+			if( listOfDataPoints != null ) {
+				foreach( var dp in listOfDataPoints )
+					reports.Add( TelemetryReport.CreateReportFromDataPoints( dp ) );
+			}
 			return reports;
 		}
 
